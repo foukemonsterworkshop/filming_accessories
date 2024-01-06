@@ -13,9 +13,9 @@
 #define TIRQ  49
 
 //if the IC model is known or the modules is unreadable,you can use this constructed function
-LCDWIKI_SPI my_lcd(MODEL,CS,CD,RST,LED); //model,cs,dc,reset,led
+LCDWIKI_SPI lcd(MODEL,CS,CD,RST,LED); //model,cs,dc,reset,led
 
-LCDWIKI_TOUCH my_touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
+LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 
 #define BLACK   0x0000
 #define BLUE    0x001F
