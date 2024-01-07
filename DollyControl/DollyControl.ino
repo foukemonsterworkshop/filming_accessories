@@ -15,28 +15,64 @@ LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 uint16_t px,py;
 
 //navigation variables and setup
-Menu mainMenu;
-Menu homeMenu;
-Menu jogMenu;
-Menu panMenu;
-Menu truckMenu;
-Menu parallaxMenu;
+static Menu mainMenu;
+static Menu homeMenu;
+static Menu jogMenu;
+static Menu panMenu;
+static Menu truckMenu;
+static Menu parallaxMenu;
 
-typedef struct{
-  MenuState menuState;
-  Menu menu;
-} menuDictionary;
-
-const menuDictionary menuArray[]{
-    {MAIN, mainMenu},
-    {HOME, homeMenu},
-    {JOG, jogMenu},
-    {PAN, panMenu},
-    {TRUCK, truckMenu},
-    {PARALLAX, parallaxMenu}
-  };
+Menu getMenu(MenuState state){
+  switch(state){
+    case MAIN: return mainMenu;
+    case HOME: return homeMenu;
+    case JOG: return jogMenu;
+    case PAN: return panMenu;
+    case TRUCK: return truckMenu;
+    case PARALLAX: return parallaxMenu;
+  }
+};
 
 //machine travel variables
+boolean steppersActive = true;
+
+
+void show_string(uint8_t *str,int16_t x,int16_t y,uint8_t csize,uint16_t fc, uint16_t bc,boolean mode)
+{
+    lcd.Set_Text_Mode(mode);
+    lcd.Set_Text_Size(csize);
+    lcd.Set_Text_colour(fc);
+    lcd.Set_Text_Back_colour(bc);
+    lcd.Print_String(str,x,y);
+}
+
+void show_picture(const uint8_t *color_buf,int16_t buf_size,int16_t x1,int16_t y1,int16_t x2,int16_t y2)
+{
+    lcd.Set_Addr_Window(x1, y1, x2, y2); 
+    lcd.Push_Any_Color(color_buf, buf_size, 1, 1);
+}
+
+void button_show_holder(const uint8_t *color_buf,int16_t buf_size,int16_t x1,int16_t y1,int16_t x2,int16_t y2){
+    lcd.Set_Addr_Window(x1, y1, x2, y2); 
+    lcd.Push_Any_Color(color_buf, buf_size, 1, 1);
+}
+
+void show_Label(Label label)
+    {
+      lcd.Set_Text_Mode(label.mode);
+      lcd.Set_Text_Size(label.textSize);
+      lcd.Set_Text_colour(label.textColor);
+      lcd.Set_Text_Back_colour(label.bgTextColor);
+      lcd.Print_String(label.content,label.x,label.y);
+    }
+
+void draw_menu(){
+  
+      lcd.Fill_Rect(getMenu(MAIN).item.x1, getMenu(MAIN).item.y1, getMenu(MAIN).item.x2, getMenu(MAIN).item.y2-getMenu(MAIN).item.y1, getMenu(MAIN).item.bgColor);
+      show_Label(getMenu(MAIN).item.label);
+      
+
+}
 
 void setup(void) 
 {    
@@ -50,7 +86,6 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  
   Serial.println("initializing");
   initializeMenus();
   Serial.println("initialized");
@@ -61,8 +96,6 @@ void setup(void)
 
 void loop(void)
 {
-
-  
   px = 0;
   py = 0;
   touch.TP_Scan(0);
@@ -72,57 +105,31 @@ void loop(void)
     py = touch.y;
   } 
   
-  if(menuArray[currentState].menu.item.is_pressed(px,py)){
+  if(getMenu(MAIN).item.is_pressed(px,py)){
+    Serial.println("clicked");
+    lcd.Fill_Rect(getMenu(MAIN).item.x1, getMenu(MAIN).item.y1, lcd.Get_Display_Width(), getMenu(MAIN).item.y2-getMenu(MAIN).item.y1, DARKGREY);
+    delay(2000);
     draw_menu();
   }
-  //navigateActiveMenu(currentState, px, py);
-
-}
-
-void navigateActiveMenu(MenuState currentState, int16_t px, int16_t py){
 
 }
 
 void initializeMenus(){
-  Serial.println("Idk something I guess");
-  MenuItem stepperMotorControl = MenuItem(0,0,100,100, WHITE);
-  Button stepperMotorState = Button(switch_on_2,sizeof(switch_on_2)/2,5,5,34,34,1);
-  Label label = Label("Motors Active",50,11,2,GREEN, BLACK,1);
-  stepperMotorControl.interaction=stepperMotorState;
-  stepperMotorControl.label=label;
-  Serial.println(label.content);
+  Serial.println("lcd info:");
+  Serial.println(lcd.Get_Display_Width());
+  Serial.println(lcd.Get_Width());
+  Serial.println(lcd.Get_Height());
+  int16_t xOffset = lcd.Get_Display_Width()-10;
+  Serial.println(xOffset);
+  Button stepperMotorState = Button(5,xOffset,5,30);
+  Label label = Label("Motors Active",50,11,2,GREEN, BLUE,1, "label created");
+
+  MenuItem stepperMotorControl = MenuItem(5,xOffset,5,30, LIGHTGREY, label, stepperMotorState);
+  Serial.println(label.extraData);
   Serial.println(stepperMotorControl.label.content);
   
   //menuArray[MAIN].menu.menuItems.push_back(stepperMotorControl);
-  menuArray[MAIN].menu.item = stepperMotorControl;
+  mainMenu = Menu(stepperMotorControl);
+  Serial.println(getMenu(MAIN).item.label.content);
+
 }
-
-void show_Button(Button button)
-    {
-        lcd.Set_Addr_Window(button.x1, button.y1, button.x2, button.y2); 
-        lcd.Push_Any_Color(button.color_buf, button.buf_size, 1, 1);
-    }
-
-void show_Label(Label label)
-    {
-      lcd.Set_Text_Mode(label.mode);
-      lcd.Set_Text_Size(label.textSize);
-      lcd.Set_Text_colour(label.textColor);
-      lcd.Set_Text_Back_colour(label.bgTextColor);
-      lcd.Print_String(label.content,label.x,label.y);
-    }
-
-void draw_menu(){
-  
-      lcd.Set_Draw_color(192, 192, 192);
-      lcd.Draw_Fast_HLine(0, 3, lcd.Get_Display_Width());
-      //loop over menuItems and then draw lines between
-      Serial.println("Global Data in draw method:");
-      Serial.println(menuArray[currentState].menu.item.label.content);
-      show_Label(menuArray[currentState].menu.item.label);
-        show_Button(menuArray[currentState].menu.item.interaction);
-      /*for(MenuItem item : menuArray[currentState].menu.menuItems){
-        show_Label(item.label);
-        show_Button(item.interaction);
-      }*/
-    }

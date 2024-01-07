@@ -1,7 +1,6 @@
 #include "Vector.h"
 
 enum MenuState {MAIN, HOME, JOG, PAN, TRUCK, PARALLAX} currentState;
-static const char *stateString[] = {"Main", "Home", "Jog", "Pan", "Truck", "Parallax"};
 
 class Label{
   public:
@@ -10,9 +9,10 @@ class Label{
     uint8_t textSize;
     String content;
     boolean mode;
+    String extraData;
 
     Label(){}
-    Label(String str, int16_t x, int16_t y, uint8_t csize, uint16_t frontTextColor, uint16_t backTextColor, boolean mode){
+    Label(String str, int16_t x, int16_t y, uint8_t csize, uint16_t frontTextColor, uint16_t backTextColor, boolean mode, String extraData){
         this->x = x;
         this->y = y;
         this->textSize = csize;
@@ -20,6 +20,7 @@ class Label{
         this->bgTextColor = backTextColor;
         this->content = str;
         this->mode = mode;
+        this->extraData = extraData;
     }
 };
 
@@ -28,20 +29,13 @@ class Button{
     MenuState navigateTarget;
     //picture information
     int16_t x1,x2,y1,y2;
-    const uint8_t *color_buf;
-    int16_t buf_size;
-
-    boolean hasImage = false;
 
     Button(){};
-    Button(uint8_t *color_buf, int16_t buf_size, int16_t x1, int16_t x2, int16_t y1, int16_t y2, boolean hasImage){
-
+    Button(int16_t x1, int16_t x2, int16_t y1, int16_t y2){
         this->x1 = x1;
         this->x2 = x2;
         this->y1 = y1;
         this->y2 = y2;
-
-        this->hasImage = hasImage;
     }
 
     boolean is_pressed(int16_t px, int16_t py){
@@ -54,27 +48,38 @@ class MenuItem{
     int16_t x1,x2,y1,y2;
     int16_t bgColor;
     Label label;
-    Button interaction;
+    Button button;
 
     MenuItem(){}
-    MenuItem(int16_t x1, int16_t x2, int16_t y1, int16_t y2, int16_t bgColor){
+    MenuItem(int16_t x1, int16_t x2, int16_t y1, int16_t y2, int16_t bgColor, Label label, Button button){
         this->x1 = x1;
         this->x2 = x2;
         this->y1 = y1;
         this->y2 = y2;
         this->bgColor = bgColor;
+        this->label = label;
+        this->button = button;
     }
 
     boolean is_pressed(int16_t px, int16_t py){
-      return interaction.is_pressed(px,py);
+      return button.is_pressed(px,py);
     }
       
+    void setLabel(Label label){
+      this->label = label;
+    }
+
+    void setButton(Button button){
+      this->button = button;
+    }
 };
 
 class Menu{
   public:
-    String value = "Data";
     MenuItem item;
 
-    //Vector<MenuItem> menuItems;
+    Menu(){}
+    Menu(MenuItem item){
+      this->item=item;
+    }
 };
