@@ -2,6 +2,22 @@
 
 enum MenuState {MAIN, HOME, JOG, PAN, TRUCK, PARALLAX} currentState;
 
+class DisplayRectangle{
+  public:
+    int16_t x1,x2,y1,y2;
+    int16_t width,height;
+
+    DisplayRectangle(){}
+    DisplayRectangle(int16_t x1,int16_t x2,int16_t y1,int16_t y2){
+      this->x1=x1;
+      this->x2=x2;
+      this->y1=y1;
+      this->y2=y2;
+      this->width = x2-x1;
+      this->height = y2-y1;
+    }
+};
+
 class Label{
   public:
     int16_t x,y;
@@ -27,35 +43,30 @@ class Label{
 class Button{
   public:
     MenuState navigateTarget;
-    //picture information
-    int16_t x1,x2,y1,y2;
+    DisplayRectangle area;
+    boolean *affectedBoolean;
 
-    Button(){};
-    Button(int16_t x1, int16_t x2, int16_t y1, int16_t y2){
-        this->x1 = x1;
-        this->x2 = x2;
-        this->y1 = y1;
-        this->y2 = y2;
+    Button(){}
+    Button(int16_t x1, int16_t x2, int16_t y1, int16_t y2, boolean *affectedBoolean){
+        this->area = DisplayRectangle(x1, x2, y1, y2);
+        this->affectedBoolean = affectedBoolean;
     }
 
     boolean is_pressed(int16_t px, int16_t py){
-      return px > x1 && px < x2 && py > y1 && py < y2;
+      return px > area.x1 && px < area.x2 && py > area.y1 && py < area.y2;
     }
 };
 
 class MenuItem{
   public:
-    int16_t x1,x2,y1,y2;
     int16_t bgColor;
     Label label;
     Button button;
+    DisplayRectangle area;
 
     MenuItem(){}
     MenuItem(int16_t x1, int16_t x2, int16_t y1, int16_t y2, int16_t bgColor, Label label, Button button){
-        this->x1 = x1;
-        this->x2 = x2;
-        this->y1 = y1;
-        this->y2 = y2;
+        this->area = DisplayRectangle(x1,x2,y1,y2);
         this->bgColor = bgColor;
         this->label = label;
         this->button = button;

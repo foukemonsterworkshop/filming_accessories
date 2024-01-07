@@ -7,7 +7,6 @@
 #include "ScreenDefinitions.h"
 #include "Menu.h"
 
-
 //if the IC model is known or the modules is unreadable,you can use this constructed function
 LCDWIKI_SPI lcd(MODEL,CS,CD,RST,LED); //model,cs,dc,reset,led
 LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
@@ -35,7 +34,6 @@ Menu getMenu(MenuState state){
 
 //machine travel variables
 boolean steppersActive = true;
-
 
 void show_string(uint8_t *str,int16_t x,int16_t y,uint8_t csize,uint16_t fc, uint16_t bc,boolean mode)
 {
@@ -68,10 +66,9 @@ void show_Label(Label label)
 
 void draw_menu(){
   
-      lcd.Fill_Rect(getMenu(MAIN).item.x1, getMenu(MAIN).item.y1, getMenu(MAIN).item.x2, getMenu(MAIN).item.y2-getMenu(MAIN).item.y1, getMenu(MAIN).item.bgColor);
+      lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, getMenu(MAIN).item.bgColor);
       show_Label(getMenu(MAIN).item.label);
       
-
 }
 
 void setup(void) 
@@ -107,29 +104,16 @@ void loop(void)
   
   if(getMenu(MAIN).item.is_pressed(px,py)){
     Serial.println("clicked");
-    lcd.Fill_Rect(getMenu(MAIN).item.x1, getMenu(MAIN).item.y1, lcd.Get_Display_Width(), getMenu(MAIN).item.y2-getMenu(MAIN).item.y1, DARKGREY);
+    lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, DARKGREY);
+    Serial.println("steppersActive current Value");
+    Serial.println(steppersActive);
+    Serial.println("steppersActive in pointer");
+    Serial.println(*getMenu(MAIN).item.button.affectedBoolean);
+    *getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
+    Serial.println(steppersActive);
+    
     delay(2000);
     draw_menu();
   }
-
-}
-
-void initializeMenus(){
-  Serial.println("lcd info:");
-  Serial.println(lcd.Get_Display_Width());
-  Serial.println(lcd.Get_Width());
-  Serial.println(lcd.Get_Height());
-  int16_t xOffset = lcd.Get_Display_Width()-10;
-  Serial.println(xOffset);
-  Button stepperMotorState = Button(5,xOffset,5,30);
-  Label label = Label("Motors Active",50,11,2,GREEN, BLUE,1, "label created");
-
-  MenuItem stepperMotorControl = MenuItem(5,xOffset,5,30, LIGHTGREY, label, stepperMotorState);
-  Serial.println(label.extraData);
-  Serial.println(stepperMotorControl.label.content);
-  
-  //menuArray[MAIN].menu.menuItems.push_back(stepperMotorControl);
-  mainMenu = Menu(stepperMotorControl);
-  Serial.println(getMenu(MAIN).item.label.content);
 
 }
