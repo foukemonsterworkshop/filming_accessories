@@ -87,10 +87,8 @@ class Menu{
   public:
     MenuItem items[15];
 
-    Menu()
-    : items {MenuItem()}
-    {}
-    Menu(MenuItem pItems[]){
-      &(items[0]) = &(pItems[0]);
+    Menu(){}
+    Menu(MenuItem items[]){
+      this->items = items;
     }
 };
