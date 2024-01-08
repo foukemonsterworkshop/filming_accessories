@@ -39,37 +39,6 @@ Menu get_menu(MenuState state){
 //machine travel variables
 boolean steppersActive = true;
 
-void show_string(uint8_t *str,int16_t x,int16_t y,uint8_t csize,uint16_t fc, uint16_t bc,boolean mode)
-{
-    lcd.Set_Text_Mode(mode);
-    lcd.Set_Text_Size(csize);
-    lcd.Set_Text_colour(fc);
-    lcd.Set_Text_Back_colour(bc);
-    lcd.Print_String(str,x,y);
-}
-
-void show_picture(const uint8_t *color_buf,int16_t buf_size,int16_t x1,int16_t y1,int16_t x2,int16_t y2)
-{
-    lcd.Set_Addr_Window(x1, y1, x2, y2); 
-    lcd.Push_Any_Color(color_buf, buf_size, 1, 1);
-}
-
-void button_show_holder(const uint8_t *color_buf,int16_t buf_size,int16_t x1,int16_t y1,int16_t x2,int16_t y2){
-    lcd.Set_Addr_Window(x1, y1, x2, y2); 
-    lcd.Push_Any_Color(color_buf, buf_size, 1, 1);
-}
-
-void show_Label(Label label)
-    {
-      lcd.Set_Text_Mode(label.mode);
-      lcd.Set_Text_Size(label.textSize);
-      lcd.Set_Text_colour(label.textColor);
-      lcd.Set_Text_Back_colour(label.bgTextColor);
-      lcd.Print_String(label.content,label.x,label.y);
-    }
-
-
-
 void setup(void) 
 {    
   currentState = MAIN;
@@ -80,13 +49,19 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.begin(600);
+  Serial.begin(9600);
+  Serial.println("Initializing...");
   initializeMenus();
-  draw_menu(get_menu(MAIN));
+  draw_menu(mainMenu);
+  Serial.println("Exiting setup");
 }
 
 void loop(void)
 {
+  boolean debug = true;
+
+  boolean requires_redraw = false;
+
   px = 0;
   py = 0;
   touch.TP_Scan(0);
@@ -96,14 +71,31 @@ void loop(void)
     py = touch.y;
   }
   
-  Serial.println("Clicked region: ");
-  Serial.println(px);
-  Serial.println(py);
   Menu currentMenu = get_menu(currentState);
   MenuItem* menuPtr = currentMenu.items;
+
+  if(debug){
+      Serial.println("Testing clicks in: ");
+      Serial.println(currentMenu.name);
+      Serial.println("Clicked region: ");
+      Serial.println(px);
+      Serial.println(py); 
+  }
+
   for(int i = 0; i < currentMenu.size; i++){
+    if(!menuPtr->initialized)break;
+    if(debug){
+      Serial.println("Button Region: ");
+      Serial.println(menuPtr->button.area.x1);
+      Serial.println(menuPtr->button.area.x2);
+      Serial.println(menuPtr->button.area.y1);
+      Serial.println(menuPtr->button.area.y2);
+    }
     if(menuPtr->is_pressed(px, py)){
-      Serial.println("clicked");
+      
+      if(debug){
+        Serial.println("clicked: " + i);
+      }
       //react to being clicked
       draw_rectangle(menuPtr->area, DARKGREY);
       
@@ -111,34 +103,22 @@ void loop(void)
       switch(menuPtr->button.action){
         case NAVIGATE:
           currentState = menuPtr->button.navigateTarget;
+          requires_redraw = true;
           break;
         case UPDATE_VALUE: 
-          /*
-          Serial.println("Swapping stepper motor state:");
-          Serial.println(steppersActive);
-          Serial.println(*menuPtr->button.affectedBoolean);
-          */
           *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
-          /*
-          Serial.println(steppersActive);
-          Serial.println(*menuPtr->button.affectedBoolean);
-          */
-          delay(300);
           break;
         case MODIFY_INPUT:
           break;
         default:
           Serial.println("bad state");
       }
-      
-      //most objects sshould be initialized
-      //need to figure out how to change which value is editted
-      //when on value entry, likely pass a pointer to the object
-
-      //swaps state of boolean related to button
-      
-
     }
     menuPtr++;
   }
+
+  if(requires_redraw){
+    draw_menu(get_menu(currentState));
+  }
+
 }
