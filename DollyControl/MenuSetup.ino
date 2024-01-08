@@ -44,28 +44,28 @@ void initializeMain(){
   array[1] = homeMachineSelection;
 
   DisplayRectangle jogMachineArea = DisplayRectangle(border,xOffset,(3*border)+(2*selectionHeight),3*(border+selectionHeight));
-  Button jogMachineButton = Button(jogMachineArea, NAVIGATE, false, HOME);
+  Button jogMachineButton = Button(jogMachineArea, NAVIGATE, false, JOG);
   Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(2*(selectionHeight+border)),2,BLACK, BLUE,1);
   MenuItem jogMachineSelection = MenuItem(jogMachineArea, LIGHTGREY, jogLabel, jogMachineButton, "jog");
 
   array[2] = jogMachineSelection;
 
   DisplayRectangle panMachineArea = DisplayRectangle(border,xOffset,(4*border)+(3*selectionHeight),4*(border+selectionHeight));
-  Button panMachineButton = Button(panMachineArea, NAVIGATE, false, HOME);
+  Button panMachineButton = Button(panMachineArea, NAVIGATE, false, PAN);
   Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(3*(selectionHeight+border)),2,BLACK, BLUE,1);
   MenuItem panMachineSelection = MenuItem(panMachineArea, LIGHTGREY, panLabel, panMachineButton, "pan");
 
   array[3] = panMachineSelection;
 
   DisplayRectangle truckMachineArea = DisplayRectangle(border,xOffset,(5*border)+(4*selectionHeight),5*(border+selectionHeight));
-  Button truckMachineButton = Button(truckMachineArea, NAVIGATE, false, HOME);
+  Button truckMachineButton = Button(truckMachineArea, NAVIGATE, false, TRUCK);
   Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(4*(selectionHeight+border)),2,BLACK, BLUE,1);
   MenuItem truckMachineSelection = MenuItem(truckMachineArea, LIGHTGREY, truckLabel, truckMachineButton, "truck");
 
   array[4] = truckMachineSelection;
 
   DisplayRectangle parallaxMachineArea = DisplayRectangle(border,xOffset,(6*border)+(5*selectionHeight),6*(border+selectionHeight));
-  Button parallaxMachineButton = Button(parallaxMachineArea, NAVIGATE, false, HOME);
+  Button parallaxMachineButton = Button(parallaxMachineArea, NAVIGATE, false, PARALLAX);
   Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(5*(selectionHeight+border)),2,BLACK, BLUE,1);
   MenuItem paralaxMachineSelection = MenuItem(parallaxMachineArea, LIGHTGREY, parallaxLabel, parallaxMachineButton, "parallax");
 
