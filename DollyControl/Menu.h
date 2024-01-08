@@ -1,6 +1,4 @@
-#include "Vector.h"
-
-enum MenuState {MAIN, HOME, JOG, PAN, TRUCK, PARALLAX} currentState;
+enum MenuState {MAIN, HOME, JOG, PAN, TRUCK, PARALLAX, VALUE_ENTRY} currentState;
 
 class DisplayRectangle{
   public:
@@ -87,10 +85,12 @@ class MenuItem{
 
 class Menu{
   public:
-    MenuItem item;
+    MenuItem items[15];
 
-    Menu(){}
-    Menu(MenuItem item){
-      this->item=item;
+    Menu()
+    : items {MenuItem()}
+    {}
+    Menu(MenuItem pItems[]){
+      &(items[0]) = &(pItems[0]);
     }
 };

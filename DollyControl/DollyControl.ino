@@ -20,6 +20,7 @@ static Menu jogMenu;
 static Menu panMenu;
 static Menu truckMenu;
 static Menu parallaxMenu;
+static Menu valueEntry;
 
 Menu getMenu(MenuState state){
   switch(state){
@@ -29,6 +30,7 @@ Menu getMenu(MenuState state){
     case PAN: return panMenu;
     case TRUCK: return truckMenu;
     case PARALLAX: return parallaxMenu;
+    case VALUE_ENTRY: return valueEntry;
   }
 };
 
@@ -64,12 +66,7 @@ void show_Label(Label label)
       lcd.Print_String(label.content,label.x,label.y);
     }
 
-void draw_menu(){
-  
-      lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, getMenu(MAIN).item.bgColor);
-      show_Label(getMenu(MAIN).item.label);
-      
-}
+
 
 void setup(void) 
 {    
@@ -83,11 +80,7 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.println("initializing");
   initializeMenus();
-  Serial.println("initialized");
-  draw_menu();
-  Serial.println("drawn");
   
 }
 
@@ -100,20 +93,21 @@ void loop(void)
   {
     px = touch.x;
     py = touch.y;
-  } 
-  
-  if(getMenu(MAIN).item.is_pressed(px,py)){
-    Serial.println("clicked");
-    lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, DARKGREY);
-    Serial.println("steppersActive current Value");
-    Serial.println(steppersActive);
-    Serial.println("steppersActive in pointer");
-    Serial.println(*getMenu(MAIN).item.button.affectedBoolean);
-    *getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
-    Serial.println(steppersActive);
-    
-    delay(2000);
-    draw_menu();
   }
-
+  
+  Menu currentMenu = getMenu(currentState);
+  for(int i = 0; i < 15; i++){
+    if(currentMenu.items[i].is_pressed(px,py)){
+      Serial.println("clicked");
+      //lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, DARKGREY);
+      Serial.println("steppersActive current Value");
+      Serial.println(steppersActive);
+      Serial.println("steppersActive in pointer");
+      //Serial.println(*getMenu(MAIN).item.button.affectedBoolean);
+      //*getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
+      Serial.println(steppersActive);
+      
+      delay(2000);
+    }
+  }
 }
