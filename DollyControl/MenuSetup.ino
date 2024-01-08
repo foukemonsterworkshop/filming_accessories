@@ -1,27 +1,70 @@
 void initializeMenus(){
   initializeMain();
   initializeHomeMachine();
+  initializeJogMachine();
+  initializePanMachine();
+  initializeTruckMachine();
+  initializeParallaxMachine();
 }
+
+Button home_button(){
+
+  //DisplayRectangle homeButtonArea = DisplayRectangle(border,xOffset,border,30);
+
+}
+
+
 
 void initializeMain(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
+  int labelXOffset = 2*border;
+  int labelYOffset = 12;
 
-  DisplayRectangle stepperMotorArea = DisplayRectangle(border,xOffset,border,30);
-  Button stepperMotorState = Button(stepperMotorArea, &steppersActive, UPDATE_VALUE, false);
-
-  Label stepperLabel = Label("Motors Active",40,10,2,GREEN, BLUE,1);
-  MenuItem stepperMotorControl = MenuItem(stepperMotorArea, LIGHTGREY, stepperLabel, stepperMotorState, "stepper");
-
-  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,(2*border)+selectionHeight,(2*border)+(2*selectionHeight));
-  Button homeMachineButton = Button(homeMachineArea, NAVIGATE, false, HOME);
-  Label hmLabel = Label("Home Machine",40,50,2,BLACK, BLUE,1);
-
-  MenuItem homeMachineSelection = MenuItem(homeMachineArea, LIGHTGREY, hmLabel, homeMachineButton, "home");
   MenuItem *array = new MenuItem[6];
+
+  DisplayRectangle stepperMotorArea = DisplayRectangle(border, xOffset, border, border+selectionHeight);
+  Button stepperMotorState = Button(stepperMotorArea, &steppersActive, UPDATE_VALUE, false);
+  Label stepperLabel = Label("Motors Active",40,labelYOffset,2,GREEN, BLUE,1);
+  MenuItem stepperMotorControl = MenuItem(stepperMotorArea, steppersActive ? GREEN : RED, stepperLabel, stepperMotorState, "stepper");
+
   array[0] = stepperMotorControl;
+
+  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,(2*border)+selectionHeight,2*(border+selectionHeight));
+  Button homeMachineButton = Button(homeMachineArea, NAVIGATE, false, HOME);
+  Label homeLabel = Label("Home Machine",labelXOffset,labelYOffset+(selectionHeight+border),2,BLACK, BLUE,1);
+  MenuItem homeMachineSelection = MenuItem(homeMachineArea, LIGHTGREY, homeLabel, homeMachineButton, "home");
+
   array[1] = homeMachineSelection;
+
+  DisplayRectangle jogMachineArea = DisplayRectangle(border,xOffset,(3*border)+(2*selectionHeight),3*(border+selectionHeight));
+  Button jogMachineButton = Button(jogMachineArea, NAVIGATE, false, HOME);
+  Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(2*(selectionHeight+border)),2,BLACK, BLUE,1);
+  MenuItem jogMachineSelection = MenuItem(jogMachineArea, LIGHTGREY, jogLabel, jogMachineButton, "jog");
+
+  array[2] = jogMachineSelection;
+
+  DisplayRectangle panMachineArea = DisplayRectangle(border,xOffset,(4*border)+(3*selectionHeight),4*(border+selectionHeight));
+  Button panMachineButton = Button(panMachineArea, NAVIGATE, false, HOME);
+  Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(3*(selectionHeight+border)),2,BLACK, BLUE,1);
+  MenuItem panMachineSelection = MenuItem(panMachineArea, LIGHTGREY, panLabel, panMachineButton, "pan");
+
+  array[3] = panMachineSelection;
+
+  DisplayRectangle truckMachineArea = DisplayRectangle(border,xOffset,(5*border)+(4*selectionHeight),5*(border+selectionHeight));
+  Button truckMachineButton = Button(truckMachineArea, NAVIGATE, false, HOME);
+  Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(4*(selectionHeight+border)),2,BLACK, BLUE,1);
+  MenuItem truckMachineSelection = MenuItem(truckMachineArea, LIGHTGREY, truckLabel, truckMachineButton, "truck");
+
+  array[4] = truckMachineSelection;
+
+  DisplayRectangle parallaxMachineArea = DisplayRectangle(border,xOffset,(6*border)+(5*selectionHeight),6*(border+selectionHeight));
+  Button parallaxMachineButton = Button(parallaxMachineArea, NAVIGATE, false, HOME);
+  Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(5*(selectionHeight+border)),2,BLACK, BLUE,1);
+  MenuItem paralaxMachineSelection = MenuItem(parallaxMachineArea, LIGHTGREY, parallaxLabel, parallaxMachineButton, "parallax");
+
+  array[5] = paralaxMachineSelection;
 
   mainMenu = Menu(array,  6, "main");
 }
@@ -41,4 +84,72 @@ void initializeHomeMachine(){
   array[0] = stepperMotorControl;
 
   homeMenu = Menu(array,  6, "home");
+}
+
+void initializeJogMachine(){
+  int border = 5;
+  int selectionHeight = 30;
+  int xOffset = lcd.Get_Display_Width()-border;
+
+  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,border,30);
+  Button test = Button(homeMachineArea, UPDATE_VALUE, false);
+
+  Label testLabel = Label("Woah it happened",40,10,2,GREEN, BLUE,1);
+  MenuItem stepperMotorControl = MenuItem(homeMachineArea, LIGHTGREY, testLabel, test, "test");
+
+  MenuItem *array = new MenuItem[6];
+  array[0] = stepperMotorControl;
+
+  homeMenu = Menu(array,  6, "jog");
+}
+
+void initializePanMachine(){
+  int border = 5;
+  int selectionHeight = 30;
+  int xOffset = lcd.Get_Display_Width()-border;
+
+  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,border,30);
+  Button test = Button(homeMachineArea, UPDATE_VALUE, false);
+
+  Label testLabel = Label("Woah it happened",40,10,2,GREEN, BLUE,1);
+  MenuItem stepperMotorControl = MenuItem(homeMachineArea, LIGHTGREY, testLabel, test, "test");
+
+  MenuItem *array = new MenuItem[6];
+  array[0] = stepperMotorControl;
+
+  homeMenu = Menu(array,  6, "pan");
+}
+
+void initializeTruckMachine(){
+  int border = 5;
+  int selectionHeight = 30;
+  int xOffset = lcd.Get_Display_Width()-border;
+
+  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,border,30);
+  Button test = Button(homeMachineArea, UPDATE_VALUE, false);
+
+  Label testLabel = Label("Woah it happened",40,10,2,GREEN, BLUE,1);
+  MenuItem stepperMotorControl = MenuItem(homeMachineArea, LIGHTGREY, testLabel, test, "test");
+
+  MenuItem *array = new MenuItem[6];
+  array[0] = stepperMotorControl;
+
+  homeMenu = Menu(array,  6, "truck");
+}
+
+void initializeParallaxMachine(){
+  int border = 5;
+  int selectionHeight = 30;
+  int xOffset = lcd.Get_Display_Width()-border;
+
+  DisplayRectangle homeMachineArea = DisplayRectangle(border,xOffset,border,30);
+  Button test = Button(homeMachineArea, UPDATE_VALUE, false);
+
+  Label testLabel = Label("Woah it happened",40,10,2,GREEN, BLUE,1);
+  MenuItem stepperMotorControl = MenuItem(homeMachineArea, LIGHTGREY, testLabel, test, "test");
+
+  MenuItem *array = new MenuItem[6];
+  array[0] = stepperMotorControl;
+
+  homeMenu = Menu(array,  6, "parallax");
 }

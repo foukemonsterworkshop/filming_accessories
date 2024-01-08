@@ -58,7 +58,7 @@ void setup(void)
 
 void loop(void)
 {
-  boolean debug = true;
+  boolean debug = false;
 
   boolean requires_redraw = false;
 
@@ -118,6 +118,7 @@ void loop(void)
   }
 
   if(requires_redraw){
+    lcd.Fill_Screen(WHITE);
     draw_menu(get_menu(currentState));
   }
 

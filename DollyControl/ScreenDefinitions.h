@@ -12,6 +12,10 @@
 #define TDIN  48
 #define TIRQ  49
 
+// We have a status line for like, is FONA working
+#define STATUS_X 10
+#define STATUS_Y 65
+
 #define BLACK        0x0000  /*   0,   0,   0 */
 #define BLUE         0x001F  /*   0,   0, 255 */
 #define RED          0xF800  /* 255,   0,   0 */
@@ -32,16 +36,9 @@
 #define GREENYELLOW  0xAFE5  /* 173, 255,  47 */
 #define PINK         0xF81F  /* 255,   0, 255 */
 
-/*
-#define BUTTON_X 40
-#define BUTTON_Y 100
-#define BUTTON_W 60
-#define BUTTON_H 30
-#define BUTTON_SPACING_X 20
-#define BUTTON_SPACING_Y 20
-#define BUTTON_TEXTSIZE 2
-*/
-
-// We have a status line for like, is FONA working
-#define STATUS_X 10
-#define STATUS_Y 65
+//circle button definitions
+#define BUTTON_R 25
+#define BUTTON_SPACING_X 25
+#define BUTTON_SPACING_Y 5
+#define EDG_Y 5
+#define EDG_X 20

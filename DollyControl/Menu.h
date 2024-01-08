@@ -18,6 +18,12 @@ class DisplayRectangle{
     }
 };
 
+class DisplayCircle{
+  public:
+    int x,y;
+    
+};
+
 class Label{
   public:
     int16_t x,y;
@@ -108,10 +114,18 @@ class Menu{
 
     String name = "";
 
+    Button homeButton;
+
     Menu(){}
     Menu(MenuItem pItems[], int size, String name){
       items = pItems;
       this->size = size;
       this->name = name;
+    }
+    Menu(MenuItem pItems[], int size, String name, Button homeButton){
+      items = pItems;
+      this->size = size;
+      this->name = name;
+      this->homeButton = homeButton;
     }
 };
