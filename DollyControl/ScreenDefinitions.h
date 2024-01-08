@@ -35,10 +35,3 @@
 #define ORANGE       0xFD20  /* 255, 165,   0 */
 #define GREENYELLOW  0xAFE5  /* 173, 255,  47 */
 #define PINK         0xF81F  /* 255,   0, 255 */
-
-//circle button definitions
-#define BUTTON_R 25
-#define BUTTON_SPACING_X 25
-#define BUTTON_SPACING_Y 5
-#define EDG_Y 5
-#define EDG_X 20

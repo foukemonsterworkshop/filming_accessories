@@ -12,7 +12,7 @@
 LCDWIKI_SPI lcd(MODEL,CS,CD,RST,LED); //model,cs,dc,reset,led
 LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 
-uint16_t px,py;
+int px,py;
 
 //navigation variables and setup
 
@@ -61,6 +61,7 @@ void loop(void)
   boolean debug = false;
 
   boolean requires_redraw = false;
+  boolean skip_click_check = false;
 
   px = 0;
   py = 0;
@@ -82,43 +83,56 @@ void loop(void)
       Serial.println(py); 
   }
 
-  for(int i = 0; i < currentMenu.size; i++){
-    if(!menuPtr->initialized)break;
-    if(debug){
-      Serial.println("Button Region: ");
-      Serial.println(menuPtr->button.area.x1);
-      Serial.println(menuPtr->button.area.x2);
-      Serial.println(menuPtr->button.area.y1);
-      Serial.println(menuPtr->button.area.y2);
+  if(currentMenu.homeButton.initialized){
+    if(currentMenu.homeButton.is_c_pressed(px, py)){
+      Serial.println("Returning to Main Menu From: " + currentMenu.name);
+      requires_redraw = true;
+      skip_click_check = true;
+      Serial.println("Setting target to: ");
+      Serial.println(currentMenu.homeButton.navigateTarget);
+      currentState = currentMenu.homeButton.navigateTarget;
     }
-    if(menuPtr->is_pressed(px, py)){
-      
+  }
+  if(!skip_click_check){
+    for(int i = 0; i < currentMenu.size; i++){
+      if(!menuPtr->initialized)break;
       if(debug){
-        Serial.println("clicked: " + i);
+        Serial.println("Button Region: ");
+        Serial.println(menuPtr->button.area.x1);
+        Serial.println(menuPtr->button.area.x2);
+        Serial.println(menuPtr->button.area.y1);
+        Serial.println(menuPtr->button.area.y2);
       }
-      //react to being clicked
-      draw_rectangle(menuPtr->area, DARKGREY);
-      
-      //change current
-      switch(menuPtr->button.action){
-        case NAVIGATE:
-          currentState = menuPtr->button.navigateTarget;
-          requires_redraw = true;
-          break;
-        case UPDATE_VALUE: 
-          *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
-          break;
-        case MODIFY_INPUT:
-          break;
-        default:
-          Serial.println("bad state");
+      if(menuPtr->is_pressed(px, py)){
+        
+        if(debug){
+          Serial.println("clicked: " + i);
+        }
+        //react to being clicked
+        draw_rectangle(menuPtr->area, DARKGREY);
+        
+        //change current
+        switch(menuPtr->button.action){
+          case NAVIGATE:
+            currentState = menuPtr->button.navigateTarget;
+            requires_redraw = true;
+            break;
+          case UPDATE_VALUE: 
+            *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
+            break;
+          case MODIFY_INPUT:
+            break;
+          default:
+            Serial.println("bad state");
+        }
       }
+      menuPtr++;
     }
-    menuPtr++;
   }
 
   if(requires_redraw){
     lcd.Fill_Screen(WHITE);
+
     draw_menu(get_menu(currentState));
   }
 
