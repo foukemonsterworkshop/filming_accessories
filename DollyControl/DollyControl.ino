@@ -5,6 +5,7 @@
 #include "switch_font.c"
 
 #include "ScreenDefinitions.h"
+#include "MenuEnums.h"
 #include "Menu.h"
 
 //if the IC model is known or the modules is unreadable,you can use this constructed function
@@ -70,8 +71,6 @@ void show_Label(Label label)
 
 void setup(void) 
 {    
-  Serial.begin(9600);
-  Serial.println("Serial Activated");
   currentState = MAIN;
 
   lcd.Init_LCD();
@@ -80,8 +79,8 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
+  Serial.begin(9600);
   initializeMenus();
-  
 }
 
 void loop(void)
@@ -112,7 +111,7 @@ void loop(void)
 
       //swaps state of boolean related to button
       //*getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
-      
+
     }
     menuPtr++;
   }

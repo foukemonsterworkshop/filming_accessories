@@ -4,7 +4,7 @@ void initializeMenus(){
 }
 
 void initializeMain(){
-  //main menu
+
   Serial.println("lcd info:");
   Serial.println(lcd.Get_Display_Width());
   Serial.println(lcd.Get_Width());
@@ -15,20 +15,20 @@ void initializeMain(){
 
   Serial.println(xOffset);
 
-  Button stepperMotorState = Button(border,xOffset,border,30, &steppersActive);
+  DisplayRectangle stepperMotorArea = DisplayRectangle(border,xOffset,border,30);
+
+  Button stepperMotorState = Button(stepperMotorArea, &steppersActive, UPDATE_VALUE);
   Label label = Label("Motors Active",50,11,2,GREEN, BLUE,1, "label created");
 
-  MenuItem stepperMotorControl = MenuItem(5,xOffset,border,30, LIGHTGREY, label, stepperMotorState);
+  MenuItem stepperMotorControl = MenuItem(stepperMotorArea, LIGHTGREY, label, stepperMotorState);
 
   Serial.println(label.extraData);
   Serial.println(stepperMotorControl.label.content);
   
-  MenuItem *array;
-  array = new MenuItem[6];
+
+  MenuItem *array = new MenuItem[6];
   array[0] = stepperMotorControl;
 
-  mainMenu = Menu(array, 6);
+  mainMenu = Menu(array,  sizeof(array)/sizeof(array[0]));
   
-
-  //Serial.println(getMenu(MAIN).item.label.content);
 }
