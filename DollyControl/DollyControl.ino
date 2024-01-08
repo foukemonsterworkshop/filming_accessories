@@ -96,18 +96,24 @@ void loop(void)
   }
   
   Menu currentMenu = getMenu(currentState);
-  for(int i = 0; i < 15; i++){
-    if(currentMenu.items[i].is_pressed(px,py)){
+  MenuItem* menuPtr = currentMenu.items;
+  for(int i = 0; i < currentMenu.size; i++){
+    if(menuPtr->is_pressed(px, py)){
       Serial.println("clicked");
+      //react to being clicked
       //lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, DARKGREY);
-      Serial.println("steppersActive current Value");
-      Serial.println(steppersActive);
-      Serial.println("steppersActive in pointer");
-      //Serial.println(*getMenu(MAIN).item.button.affectedBoolean);
+
+      //change current
+      currentState = menuPtr->button.navigateTarget;
+
+      //most objects sshould be initialized
+      //need to figure out how to change which value is editted
+      //when on value entry, likely pass a pointer to the object
+
+      //swaps state of boolean related to button
       //*getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
-      Serial.println(steppersActive);
       
-      delay(2000);
     }
+    menuPtr++;
   }
 }

@@ -61,6 +61,7 @@ class MenuItem{
     Label label;
     Button button;
     DisplayRectangle area;
+    boolean initialized = false;
 
     MenuItem(){}
     MenuItem(int16_t x1, int16_t x2, int16_t y1, int16_t y2, int16_t bgColor, Label label, Button button){
@@ -68,6 +69,7 @@ class MenuItem{
         this->bgColor = bgColor;
         this->label = label;
         this->button = button;
+        this->initialized = true;
     }
 
     boolean is_pressed(int16_t px, int16_t py){
@@ -85,10 +87,12 @@ class MenuItem{
 
 class Menu{
   public:
-    MenuItem items[15];
+    MenuItem *items;
+    int size = 0;
 
     Menu(){}
-    Menu(MenuItem items[]){
-      this->items = items;
+    Menu(MenuItem pItems[], int size){
+      items = pItems;
+      this->size = size;
     }
 };

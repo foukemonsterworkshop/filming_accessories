@@ -27,9 +27,8 @@ void initializeMain(){
   array = new MenuItem[6];
   array[0] = stepperMotorControl;
 
-  mainMenu = Menu(array);
+  mainMenu = Menu(array, 6);
   
 
   //Serial.println(getMenu(MAIN).item.label.content);
-
 }
