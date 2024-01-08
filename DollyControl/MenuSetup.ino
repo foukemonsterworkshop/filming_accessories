@@ -18,7 +18,7 @@ void initializeMain(){
   DisplayRectangle stepperMotorArea = DisplayRectangle(border,xOffset,border,30);
 
   Button stepperMotorState = Button(stepperMotorArea, &steppersActive, UPDATE_VALUE);
-  Label label = Label("Motors Active",50,11,2,GREEN, BLUE,1, "label created");
+  Label label = Label("Motors Active",40,10,2,GREEN, BLUE,1, "label created");
 
   MenuItem stepperMotorControl = MenuItem(stepperMotorArea, LIGHTGREY, label, stepperMotorState);
 
@@ -29,6 +29,6 @@ void initializeMain(){
   MenuItem *array = new MenuItem[6];
   array[0] = stepperMotorControl;
 
-  mainMenu = Menu(array,  sizeof(array)/sizeof(array[0]));
+  mainMenu = Menu(array,  6);
   
 }

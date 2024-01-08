@@ -15,6 +15,7 @@ LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 uint16_t px,py;
 
 //navigation variables and setup
+
 static Menu mainMenu;
 static Menu homeMenu;
 static Menu jogMenu;
@@ -23,7 +24,7 @@ static Menu truckMenu;
 static Menu parallaxMenu;
 static Menu valueEntry;
 
-Menu getMenu(MenuState state){
+Menu get_menu(MenuState state){
   switch(state){
     case MAIN: return mainMenu;
     case HOME: return homeMenu;
@@ -79,8 +80,9 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.begin(9600);
+  Serial.begin(600);
   initializeMenus();
+  draw_menu(get_menu(MAIN));
 }
 
 void loop(void)
@@ -94,23 +96,47 @@ void loop(void)
     py = touch.y;
   }
   
-  Menu currentMenu = getMenu(currentState);
+  Serial.println("Clicked region: ");
+  Serial.println(px);
+  Serial.println(py);
+  Menu currentMenu = get_menu(currentState);
   MenuItem* menuPtr = currentMenu.items;
   for(int i = 0; i < currentMenu.size; i++){
     if(menuPtr->is_pressed(px, py)){
       Serial.println("clicked");
       //react to being clicked
-      //lcd.Fill_Rect(getMenu(MAIN).item.area.x1, getMenu(MAIN).item.area.y1, getMenu(MAIN).item.area.x2, getMenu(MAIN).item.area.height, DARKGREY);
-
+      draw_rectangle(menuPtr->area, DARKGREY);
+      
       //change current
-      currentState = menuPtr->button.navigateTarget;
-
+      switch(menuPtr->button.action){
+        case NAVIGATE:
+          currentState = menuPtr->button.navigateTarget;
+          break;
+        case UPDATE_VALUE: 
+          /*
+          Serial.println("Swapping stepper motor state:");
+          Serial.println(steppersActive);
+          Serial.println(*menuPtr->button.affectedBoolean);
+          */
+          *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
+          /*
+          Serial.println(steppersActive);
+          Serial.println(*menuPtr->button.affectedBoolean);
+          */
+          delay(300);
+          break;
+        case MODIFY_INPUT:
+          break;
+        default:
+          Serial.println("bad state");
+      }
+      
       //most objects sshould be initialized
       //need to figure out how to change which value is editted
       //when on value entry, likely pass a pointer to the object
 
       //swaps state of boolean related to button
-      //*getMenu(MAIN).item.button.affectedBoolean = !*getMenu(MAIN).item.button.affectedBoolean;
+      
 
     }
     menuPtr++;

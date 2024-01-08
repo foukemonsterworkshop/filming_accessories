@@ -12,6 +12,10 @@ class DisplayRectangle{
       this->width = x2-x1;
       this->height = y2-y1;
     }
+
+    boolean is_pressed(int16_t px, int16_t py){
+      return px > x1 && px < x2 && py > y1 && py < y2;
+    }
 };
 
 class Label{
@@ -51,7 +55,7 @@ class Button{
     }
 
     boolean is_pressed(int16_t px, int16_t py){
-      return px > area.x1 && px < area.x2 && py > area.y1 && py < area.y2;
+      return area.is_pressed(px, py);
     }
 };
 
