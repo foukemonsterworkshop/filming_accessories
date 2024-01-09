@@ -5,14 +5,14 @@ I became frustrated with the limitations of tripods in my small shop space and a
 The boom is mounted to a single point, but the mount can be reused or dovetailed into a duplicated mounting point.
 
 Projects that I felt most influenced this camera arm:
-Two from Marius Hornberger
+Two from Marius Hornberger  
 https://www.youtube.com/watch?v=7V0NvNZmvXU
 https://youtu.be/p68Y1e4acF4?si=vS-Dpx9isLgJdFHX
 
-This massive Gantry from Inheritance Machining 
+This massive Gantry from Inheritance Machining  
 https://www.youtube.com/watch?v=t1sXvMY_vAw
 
-And a series from The Meandrous Engineer
+And a series from The Meandrous Engineer  
 https://www.youtube.com/watch?v=fble2ifR0NI
 
 //TODO add a link to the FSD file or whatever format I decide to export
