@@ -30,7 +30,7 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.begin(600);
+  Serial.begin(9600);
   Serial.println("Initializing...");
   current_menu = init_main_menu();
   draw_menu(current_menu);
@@ -75,7 +75,7 @@ void loop(void)
 
     if(menuPtr->is_pressed(px, py)){
       
-      if(debug){
+      if(true){
         Serial.println("clicked: " + i);
       }
       //react to being clicked

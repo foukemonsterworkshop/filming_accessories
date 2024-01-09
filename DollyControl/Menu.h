@@ -30,11 +30,8 @@ class DisplayShape{
 
     boolean is_pressed(int px, int py){
       switch(this->display_type){
-        case RECTANGLE:
-          is_r_pressed(px, py);
-          break;
-        case CIRCLE:
-          is_c_pressed(px, py);
+        case RECTANGLE: return is_r_pressed(px, py);
+        case CIRCLE: return is_c_pressed(px, py);
       }
     }
 
@@ -43,7 +40,7 @@ class DisplayShape{
     }
 
     boolean is_c_pressed(int px,int py){
-    return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
+      return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
     }
 };
 

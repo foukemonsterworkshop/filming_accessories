@@ -96,16 +96,15 @@ Menu init_home_machine_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape homeMachineArea = DisplayShape(border,xOffset,border,30);
+  DisplayShape homeMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
   Button test = Button(homeMachineArea, UPDATE_VALUE);
 
   Label testLabel = Label("Home Machine",40,10,2,GREEN, BLUE,1);
   MenuItem homeControl = MenuItem(homeMachineArea, testLabel, test, "test");
 
-
-
   MenuItem *array = new MenuItem[2];
   array[0] = homeControl;
+  array[1] = home_nav_button();
 
   return Menu(array,  6, "home");
 }
@@ -115,16 +114,17 @@ Menu init_jog_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape jogMachineArea = DisplayShape(border,xOffset,border,30);
+  DisplayShape jogMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
   Button test = Button(jogMachineArea, UPDATE_VALUE);
 
   Label testLabel = Label("Jog Machine",40,10,2,GREEN, BLUE,1);
   MenuItem jogControl = MenuItem(jogMachineArea, testLabel, test, "test");
 
-  MenuItem *array = new MenuItem[6];
+  MenuItem *array = new MenuItem[2];
   array[0] = jogControl;
+  array[1] = home_nav_button();
 
-  return Menu(array,  6, "jog");
+  return Menu(array,  2, "jog");
 }
 
 Menu init_pan_menu(){
@@ -132,16 +132,17 @@ Menu init_pan_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape panMachineArea = DisplayShape(border,xOffset,border,30);
+  DisplayShape panMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
   Button test = Button(panMachineArea, UPDATE_VALUE);
 
   Label testLabel = Label("Pan",40,10,2,GREEN, BLUE,1);
   MenuItem panControl = MenuItem(panMachineArea, testLabel, test, "test");
 
-  MenuItem *array = new MenuItem[6];
+  MenuItem *array = new MenuItem[2];
   array[0] = panControl;
+  array[1] = home_nav_button();
 
-  return Menu(array,  6, "pan");
+  return Menu(array, 2, "pan");
 }
 
 Menu init_truck_menu(){
@@ -149,16 +150,17 @@ Menu init_truck_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape truckMachineArea = DisplayShape(border,xOffset,border,30);
+  DisplayShape truckMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
   Button test = Button(truckMachineArea, UPDATE_VALUE);
 
   Label testLabel = Label("Truck",40,10,2,GREEN, BLUE,1);
   MenuItem truckControl = MenuItem(truckMachineArea, testLabel, test, "test");
 
-  MenuItem *array = new MenuItem[6];
+  MenuItem *array = new MenuItem[2];
   array[0] = truckControl;
+  array[1] = home_nav_button();
 
-  return Menu(array,  6, "truck");
+  return Menu(array, 2, "truck");
 }
 
 Menu init_parallax_menu(){
@@ -166,14 +168,15 @@ Menu init_parallax_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape parallaxMachineArea = DisplayShape(border,xOffset,border,30);
+  DisplayShape parallaxMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
   Button parallax_button = Button(parallaxMachineArea, UPDATE_VALUE);
 
   Label parallax_label = Label("Parallax",40,10,2,GREEN, BLUE,1);
   MenuItem parallaxControl = MenuItem(parallaxMachineArea, parallax_label, parallax_button, "test");
 
-  MenuItem *array = new MenuItem[6];
+  MenuItem *array = new MenuItem[2];
   array[0] = parallaxControl;
+  array[1] = home_nav_button();
 
-  return Menu(array,  6, "parallax");
+  return Menu(array,  2, "parallax");
 }
