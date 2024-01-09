@@ -27,20 +27,21 @@ I used a knockoff arduino mega, a knockoff ILI9341 touchscreen, and some small a
 The necessary arduino files are {here}
 And the models can be found {here}
 
-Wiki information for the specific touch screen I used can be found ![here](http://www.lcdwiki.com/3.2inch_RPi_Display)
+Wiki information for the specific touch screen I used can be found  
+![here](http://www.lcdwiki.com/3.2inch_RPi_Display)
 
-I originally started with much too weak Stepper motors.
+I originally started with much too weak Stepper motors.  
 https://www.amazon.com/gp/product/B07YRHX73L/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
 
-And a related tutorial I used is here:
+And a related tutorial I used is here:  
 https://lastminuteengineers.com/28byj48-stepper-motor-arduino-tutorial/
 
-After the initial test and finding that they would not perform the required action, I switched to nema 17 stepper motors.
-https://www.amazon.com/dp/B00PNEQKC0?psc=1&ref=ppx_yo2ov_dt_b_product_details
+After the initial test and finding that they would not perform the required action, I switched to nema 17 stepper motors.  
+https://www.amazon.com/dp/B00PNEQKC0?psc=1&ref=ppx_yo2ov_dt_b_product_details  
 https://www.amazon.com/dp/B00PNEQ79Q?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
-With these motor drivers
+With these motor drivers  
 https://www.amazon.com/dp/B00NJOTBOK?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
-And these related tutorial from the same place
+And these related tutorial from the same place  
 https://lastminuteengineers.com/stepper-motor-l298n-arduino-tutorial/
