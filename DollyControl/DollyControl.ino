@@ -83,51 +83,39 @@ void loop(void)
       Serial.println(py); 
   }
 
-  if(current_menu.homeButton.initialized){
-    if(current_menu.homeButton.is_c_pressed(px, py)){
-      Serial.println("Returning to Main Menu From: " + current_menu.name);
-      requires_redraw = true;
-      skip_click_check = true;
-      Serial.println("Setting target to: ");
-      Serial.println(current_menu.homeButton.navigateTarget);
-      currentState = current_menu.homeButton.navigateTarget;
+  for(int i = 0; i < current_menu.size; i++){
+    if(!menuPtr->initialized)break;
+    if(debug){
+      Serial.println("Button Region: ");
+      //Serial.println(menuPtr->button.area.x);
+      //Serial.println(menuPtr->button.area.x2);
+      //Serial.println(menuPtr->button.area.y);
+      //Serial.println(menuPtr->button.area.y2);
     }
-  }
-  if(!skip_click_check){
-    for(int i = 0; i < current_menu.size; i++){
-      if(!menuPtr->initialized)break;
+    if(menuPtr->is_pressed(px, py)){
+      
       if(debug){
-        Serial.println("Button Region: ");
-        Serial.println(menuPtr->button.area.x1);
-        Serial.println(menuPtr->button.area.x2);
-        Serial.println(menuPtr->button.area.y1);
-        Serial.println(menuPtr->button.area.y2);
+        Serial.println("clicked: " + i);
       }
-      if(menuPtr->is_pressed(px, py)){
-        
-        if(debug){
-          Serial.println("clicked: " + i);
-        }
-        //react to being clicked
-        draw_rectangle(menuPtr->area, DARKGREY);
-        
-        //change current
-        switch(menuPtr->button.action){
-          case NAVIGATE:
-            currentState = menuPtr->button.navigateTarget;
-            requires_redraw = true;
-            break;
-          case UPDATE_VALUE: 
-            *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
-            break;
-          case MODIFY_INPUT:
-            break;
-          default:
-            Serial.println("bad state");
-        }
+      //react to being clicked
+      draw_shape(*menuPtr);
+      
+      //change current
+      switch(menuPtr->button.action){
+        case NAVIGATE:
+          currentState = menuPtr->button.navigateTarget;
+          requires_redraw = true;
+          break;
+        case UPDATE_VALUE: 
+          *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
+          break;
+        case MODIFY_INPUT:
+          break;
+        default:
+          Serial.println("bad state");
       }
-      menuPtr++;
     }
+    menuPtr++;
   }
 
   if(requires_redraw){

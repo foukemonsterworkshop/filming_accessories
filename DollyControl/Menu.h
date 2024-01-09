@@ -1,38 +1,48 @@
-class DisplayRectangle{
+class DisplayShape{
   public:
-    int x1,x2,y1,y2;
-    int width,height;
+    int x,x2,y,y2;
 
-    DisplayRectangle(){}
-    DisplayRectangle(int x1,int x2,int y1,int y2){
-      this->x1=x1;
-      this->x2=x2;
-      this->y1=y1;
-      this->y2=y2;
-      this->width = (x2-x1);
-      this->height = (y2-y1);
-    }
+    DisplayType display_type;
 
-    boolean is_pressed(int px, int py){
-      return px > x1 && px < x2 && py > y1 && py < y2;
-    }
-};
-
-class DisplayCircle{
-  public:
-    int x,y;
-    int radius;
+    int width,height,radius;
 
     int16_t bgColor;
 
-    DisplayCircle(){}
-    DisplayCircle(int x, int y, int radius, int16_t bgColor){
+    DisplayShape(){}
+    DisplayShape(int x1,int x2,int y1,int y2, int16_t bgColor){
+      this->x=x;
+      this->x2=x2;
+      this->y=y;
+      this->y2=y2;
+      this->width = (x2-x);
+      this->height = (y2-y);
+      this->bgColor = bgColor;
+      this->display_type = RECTANGLE;
+    }
+
+    DisplayShape(int x, int y, int radius, int16_t bgColor){
       this->x = x;
       this->y = y;
       this->radius = radius;
       this->bgColor = bgColor;
+      this->display_type = CIRCLE;
     }
-    boolean is_pressed(int px,int py){
+
+    boolean is_pressed(int px, int py){
+      switch(this->display_type){
+        case RECTANGLE:
+          is_r_pressed(px, py);
+          break;
+        case CIRCLE:
+          is_c_pressed(px, py);
+      }
+    }
+
+    boolean is_r_pressed(int px, int py){
+      return px > x && px < x2 && py > y && py < y2;
+    }
+
+    boolean is_c_pressed(int px,int py){
     return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
     }
 };
@@ -61,75 +71,57 @@ class Button{
   public:
     MenuState navigateTarget;
 
-    DisplayRectangle area;
-    DisplayCircle c_area;
+    DisplayShape area;
 
     boolean *affectedBoolean;
     ButtonAction action;
     boolean separateButton = false;
 
-    Button(){}
-    Button(DisplayRectangle area, ButtonAction action, boolean separateButton){
-        this->area = area;
-        this->action = action;
-        this->separateButton = separateButton;
-    }
-    Button(DisplayRectangle area, ButtonAction action, boolean separateButton, MenuState navigateTarget){
-        this->area = area;
-        this->action = action;
-        this->separateButton = separateButton;
-        this->navigateTarget = navigateTarget;
-    }
-    Button(DisplayRectangle area, boolean *affectedBoolean, ButtonAction action, boolean separateButton){
-        this->area = area;
-        this->affectedBoolean = affectedBoolean;
-        this->action = action;
-        this->separateButton = separateButton;
-    }
-    Button(DisplayRectangle area, boolean *affectedBoolean, ButtonAction action, boolean separateButton, MenuState navigateTarget){
-        this->area = area;
-        this->affectedBoolean = affectedBoolean;
-        this->action = action;
-        this->separateButton = separateButton;
-        this->navigateTarget = navigateTarget;
-    }
-    Button(DisplayCircle c_area, ButtonAction action, MenuState navigateTarget){
-        this->c_area = c_area;
-        this->action = action;
-        this->separateButton = separateButton;
-    }
+    String debugStr = "";
 
+    Button(){}
+    Button(DisplayShape area, ButtonAction action, boolean separateButton){
+        this->area = area;
+        this->action = action;
+        this->separateButton = separateButton;
+    }
+    Button(DisplayShape area, ButtonAction action, boolean separateButton, MenuState navigateTarget){
+        this->area = area;
+        this->action = action;
+        this->separateButton = separateButton;
+        this->navigateTarget = navigateTarget;
+    }
+    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, boolean separateButton){
+        this->area = area;
+        this->affectedBoolean = affectedBoolean;
+        this->action = action;
+        this->separateButton = separateButton;
+    }
+    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, boolean separateButton, MenuState navigateTarget){
+        this->area = area;
+        this->affectedBoolean = affectedBoolean;
+        this->action = action;
+        this->separateButton = separateButton;
+        this->navigateTarget = navigateTarget;
+    }
+    
     boolean is_pressed(int px, int py){
       return area.is_pressed(px, py);
     }
 
-    boolean is_c_pressed(int px, int py){
-      return c_area.is_pressed(px, py);
-    }
-};
-
-class HomeButton : public Button{
-  public:
-    boolean initialized = false;
-    HomeButton(){}
-    HomeButton(DisplayCircle c_area, ButtonAction action, MenuState navigateTarget) : Button(c_area, action, navigateTarget){
-        this->initialized = true;
-    }
 };
 
 class MenuItem{
   public:
-    int16_t bgColor;
     Label label;
     Button button;
-    DisplayRectangle area;
+    DisplayShape area;
     boolean initialized = false;
     String name;
 
     MenuItem(){}
-    MenuItem(DisplayRectangle area, int16_t bgColor, Label label, Button button, String name){
+    MenuItem(DisplayShape area, Label label, Button button, String name){
         this->area = area;
-        this->bgColor = bgColor;
         this->label = label;
         this->button = button;
         this->initialized = true;
@@ -148,18 +140,10 @@ class Menu{
 
     String name = "";
 
-    HomeButton homeButton;
-
     Menu(){}
     Menu(MenuItem pItems[], int size, String name){
       items = pItems;
       this->size = size;
       this->name = name;
-    }
-    Menu(MenuItem pItems[], int size, String name, HomeButton homeButton){
-      items = pItems;
-      this->size = size;
-      this->name = name;
-      this->homeButton = homeButton;
     }
 };
