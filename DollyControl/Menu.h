@@ -9,7 +9,7 @@ class DisplayShape{
     int16_t bgColor;
 
     DisplayShape(){}
-    DisplayShape(int x1,int x2,int y1,int y2, int16_t bgColor){
+    DisplayShape(int x,int x2,int y,int y2, int16_t bgColor){
       this->x=x;
       this->x2=x2;
       this->y=y;
@@ -73,38 +73,37 @@ class Button{
 
     DisplayShape area;
 
-    boolean *affectedBoolean;
     ButtonAction action;
-    boolean separateButton = false;
 
+    boolean *affectedBoolean;
     String debugStr = "";
 
     Button(){}
-    Button(DisplayShape area, ButtonAction action, boolean separateButton){
+    Button(DisplayShape area, ButtonAction action){
         this->area = area;
         this->action = action;
-        this->separateButton = separateButton;
     }
-    Button(DisplayShape area, ButtonAction action, boolean separateButton, MenuState navigateTarget){
+    Button(DisplayShape area, ButtonAction action, MenuState navigateTarget){
         this->area = area;
         this->action = action;
-        this->separateButton = separateButton;
         this->navigateTarget = navigateTarget;
     }
-    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, boolean separateButton){
+    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action){
         this->area = area;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
-        this->separateButton = separateButton;
     }
-    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, boolean separateButton, MenuState navigateTarget){
+    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
         this->area = area;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
-        this->separateButton = separateButton;
         this->navigateTarget = navigateTarget;
     }
     
+    void set_debug_str(String debug){
+      this->debugStr = debug;
+    }
+
     boolean is_pressed(int px, int py){
       return area.is_pressed(px, py);
     }
@@ -113,9 +112,11 @@ class Button{
 
 class MenuItem{
   public:
+    DisplayShape area;
+    
     Label label;
     Button button;
-    DisplayShape area;
+    
     boolean initialized = false;
     String name;
 
@@ -129,7 +130,7 @@ class MenuItem{
     }
 
     boolean is_pressed(int px, int py){
-      return button.is_pressed(px,py);
+      return area.is_pressed(px,py);
     }
 };
 

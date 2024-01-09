@@ -3,30 +3,30 @@ void draw_menu(Menu menu){
   MenuItem* ptr = menu.items;
   for(int i = 0; i < menu.size; i++){
     if(ptr->initialized){
-    draw_rectangle(ptr->area, ptr->area.bgColor);
-    show_label(ptr->label);
-    //if(ptr->button.separateButton){
-      //draw button
-    //}
-    Serial.println("Drawn menuItem: " + ptr->name);
+      draw_shape(ptr->button.area);
+      show_label(ptr->label);
+      Serial.println("Drawn menuItem: " + ptr->name);
     }
     ptr++;
   }
   Serial.println("Finished drawing menu: " + menu.name);
 }
 
-void draw_shape(MenuItem item){
-  switch(item.area.display_type){
+void draw_shape(DisplayShape shape){
+  switch(shape.display_type){
     case RECTANGLE:
-      draw_rectangle(item.area, item.area.bgColor);
+      Serial.println("Drawing Rectangle");
+      draw_rectangle(shape, shape.bgColor);
       break;
     case CIRCLE:
-      draw_circle(item.area, item.area.bgColor);
+      Serial.println("Drawing Circle");
+      draw_circle(shape, shape.bgColor);
       break;
   }
 }
 
 void draw_rectangle(DisplayShape rectangle, int16_t color){
+  Serial.print("starting y: " + rectangle.y);
   lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
 }
 
@@ -36,6 +36,7 @@ void draw_circle(DisplayShape circle, int16_t color){
 }
 
 void show_label(Label label){
+    Serial.println("Drawing Label: " + label.content);
     lcd.Set_Text_Mode(label.mode);
     lcd.Set_Text_Size(label.textSize);
     lcd.Set_Text_colour(label.textColor);
