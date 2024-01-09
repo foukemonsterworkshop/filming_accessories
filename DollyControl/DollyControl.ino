@@ -15,7 +15,8 @@ LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 int px,py;
 
 //navigation variables and setup
-
+Menu current_menu;
+/*
 static Menu mainMenu;
 static Menu homeMenu;
 static Menu jogMenu;
@@ -35,6 +36,7 @@ Menu get_menu(MenuState state){
     case VALUE_ENTRY: return valueEntry;
   }
 };
+*/
 
 //machine travel variables
 boolean steppersActive = true;
@@ -51,8 +53,8 @@ void setup(void)
   
   Serial.begin(9600);
   Serial.println("Initializing...");
-  initializeMenus();
-  draw_menu(mainMenu);
+  current_menu = init_main_menu();
+  draw_menu(current_menu);
   Serial.println("Exiting setup");
 }
 
@@ -72,29 +74,27 @@ void loop(void)
     py = touch.y;
   }
   
-  Menu currentMenu = get_menu(currentState);
-  MenuItem* menuPtr = currentMenu.items;
-
+  MenuItem* menuPtr = current_menu.items;
   if(debug){
       Serial.println("Testing clicks in: ");
-      Serial.println(currentMenu.name);
+      Serial.println(current_menu.name);
       Serial.println("Clicked region: ");
       Serial.println(px);
       Serial.println(py); 
   }
 
-  if(currentMenu.homeButton.initialized){
-    if(currentMenu.homeButton.is_c_pressed(px, py)){
-      Serial.println("Returning to Main Menu From: " + currentMenu.name);
+  if(current_menu.homeButton.initialized){
+    if(current_menu.homeButton.is_c_pressed(px, py)){
+      Serial.println("Returning to Main Menu From: " + current_menu.name);
       requires_redraw = true;
       skip_click_check = true;
       Serial.println("Setting target to: ");
-      Serial.println(currentMenu.homeButton.navigateTarget);
-      currentState = currentMenu.homeButton.navigateTarget;
+      Serial.println(current_menu.homeButton.navigateTarget);
+      currentState = current_menu.homeButton.navigateTarget;
     }
   }
   if(!skip_click_check){
-    for(int i = 0; i < currentMenu.size; i++){
+    for(int i = 0; i < current_menu.size; i++){
       if(!menuPtr->initialized)break;
       if(debug){
         Serial.println("Button Region: ");
@@ -133,7 +133,7 @@ void loop(void)
   if(requires_redraw){
     lcd.Fill_Screen(WHITE);
 
-    draw_menu(get_menu(currentState));
+    draw_menu(current_menu);
   }
 
 }

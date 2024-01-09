@@ -1,12 +1,3 @@
-void initializeMenus(){
-  initializeMain();
-  initializeHomeMachine();
-  initializeJogMachine();
-  initializePanMachine();
-  initializeTruckMachine();
-  initializeParallaxMachine();
-}
-
 HomeButton home_button(){
   int x = lcd.Get_Width() - 15;
   int y = lcd.Get_Height() - 15;
@@ -20,7 +11,7 @@ HomeButton home_button(){
 
 }
 
-void initializeMain(){
+Menu init_main_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -71,10 +62,10 @@ void initializeMain(){
 
   array[5] = paralaxMachineSelection;
 
-  mainMenu = Menu(array,  6, "main");
+  return Menu(array,  6, "main");
 }
 
-void initializeHomeMachine(){
+Menu init_home_machine_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -88,10 +79,10 @@ void initializeHomeMachine(){
   MenuItem *array = new MenuItem[6];
   array[0] = homeControl;
 
-  homeMenu = Menu(array,  6, "home", home_button());
+  return Menu(array,  6, "home", home_button());
 }
 
-void initializeJogMachine(){
+Menu init_jog_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -105,10 +96,10 @@ void initializeJogMachine(){
   MenuItem *array = new MenuItem[6];
   array[0] = jogControl;
 
-  jogMenu = Menu(array,  6, "jog", home_button());
+  return Menu(array,  6, "jog", home_button());
 }
 
-void initializePanMachine(){
+Menu init_pan_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -122,10 +113,10 @@ void initializePanMachine(){
   MenuItem *array = new MenuItem[6];
   array[0] = panControl;
 
-  panMenu = Menu(array,  6, "pan", home_button());
+  return Menu(array,  6, "pan", home_button());
 }
 
-void initializeTruckMachine(){
+Menu inti_truck_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -139,10 +130,10 @@ void initializeTruckMachine(){
   MenuItem *array = new MenuItem[6];
   array[0] = truckControl;
 
-  truckMenu = Menu(array,  6, "truck", home_button());
+  return Menu(array,  6, "truck", home_button());
 }
 
-void initializeParallaxMachine(){
+Menu init_parallax_menu(){
   int border = 5;
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
@@ -156,5 +147,5 @@ void initializeParallaxMachine(){
   MenuItem *array = new MenuItem[6];
   array[0] = parallaxControl;
 
-  parallaxMenu = Menu(array,  6, "parallax", home_button());
+  return Menu(array,  6, "parallax", home_button());
 }
