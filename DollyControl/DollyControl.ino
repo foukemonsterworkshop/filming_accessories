@@ -8,6 +8,8 @@
 #include "MenuEnums.h"
 #include "Menu.h"
 
+#include <Stepper.h>
+
 //if the IC model is known or the modules is unreadable,you can use this constructed function
 LCDWIKI_SPI lcd(MODEL,CS,CD,RST,LED); //model,cs,dc,reset,led
 LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
@@ -19,6 +21,12 @@ Menu current_menu;
 
 //machine travel variables
 boolean steppersActive = true;
+
+// Defines the number of steps per rotation
+const int stepsPerRevolution = 2038;
+// Creates an instance of stepper class
+// Pins entered in sequence IN1-IN3-IN2-IN4 for proper step sequence
+Stepper gantry_stepper = Stepper(stepsPerRevolution, 8, 10, 9, 11);
 
 void setup(void) 
 {    
@@ -40,6 +48,16 @@ void setup(void)
 
 void loop(void)
 {
+
+  gantry_stepper.setSpeed(20);
+	gantry_stepper.step(stepsPerRevolution);
+	delay(1000);
+	
+	// Rotate CCW quickly at 10 RPM
+	gantry_stepper.setSpeed(30);
+	gantry_stepper.step(-stepsPerRevolution);
+	delay(1000);
+
   boolean debug = false;
 
   boolean requires_redraw = false;
