@@ -16,6 +16,6 @@ I used a knockoff arduino mega, a knockoff ILI9341 touchscreen, and some small a
 The necessary arduino files are {here}
 And the models can be found {here}
 
-Wiki information for the specific touch screen I used can be found [here]: http://www.lcdwiki.com/3.2inch_RPi_Display
-The stepper motors can be found [here]: https://www.amazon.com/gp/product/B07YRHX73L/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
-And the tutorial I used is [here]: https://lastminuteengineers.com/28byj48-stepper-motor-arduino-tutorial/
+Wiki information for the specific touch screen I used can be found ![here](http://www.lcdwiki.com/3.2inch_RPi_Display)
+The stepper motors can be found ![here](https://www.amazon.com/gp/product/B07YRHX73L/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+And the tutorial I used is ![here](https://lastminuteengineers.com/28byj48-stepper-motor-arduino-tutorial/)
