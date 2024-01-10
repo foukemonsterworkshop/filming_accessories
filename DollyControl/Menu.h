@@ -134,7 +134,7 @@ class Menu{
     String name = "";
 
     Menu(){}
-    Menu(Button buttons[], Label labels[], String name){
+    Menu(Button buttons[], int button_size, Label labels[], int label_size, String name){
         this->buttons = buttons;
         this->labels = labels;
         
@@ -144,22 +144,22 @@ class Menu{
         this->label_size = sizeof(labels);
     }
 
-    Menu(Button buttons[], String name){
+    Menu(Button buttons[], int button_size, String name){
         this->buttons = buttons;
         
         this->name = name;
 
-        this->button_size = sizeof(buttons);
+        this->button_size = button_size;
         this->label_size = 0;
     }
 
-    Menu(Label labels[], String name){
+    Menu(Label labels[], int label_size, String name){
         this->buttons = buttons;
         this->labels = labels;
         
         this->name = name;
 
         this->button_size = 0;
-        this->label_size = sizeof(labels);
+        this->label_size = label_size;
     }
 };
