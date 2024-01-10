@@ -44,12 +44,11 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.begin(1200);
+  Serial.begin(600);
   Serial.println("Initializing...");
   current_menu = init_main_menu();
   draw_menu(current_menu);
   Serial.println("Exiting setup");
-
 
 }
 
@@ -90,22 +89,19 @@ void loop(void)
 
   for(int i = 0; i < current_menu.button_size; i++){
     if(!bPtr->initialized)break;
-
     if(debug){
+      Serial.println(bPtr->area->display_type);
       Serial.println("Button Region: ");
-      Serial.println(bPtr->area.x);
-      Serial.println(bPtr->area.x2);
-      Serial.println(bPtr->area.y);
-      Serial.println(bPtr->area.y2);
+      Serial.println(bPtr->area->x);
+      Serial.println(bPtr->area->x2);
+      Serial.println(bPtr->area->y);
+      Serial.println(bPtr->area->y2);
     }
 
     if(bPtr->is_pressed(px, py)){
-      
-      if(true){
+      if(debug){
         Serial.println("clicked: " + i);
       }
-      //react to being clicked
-      //draw_shape(*menuPtr);
       switch(bPtr->action){
         case NAVIGATE:
           current_state = bPtr->navigateTarget;
@@ -113,9 +109,10 @@ void loop(void)
           break;
         case UPDATE_VALUE: 
           *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
-          bPtr->area.set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
+          bPtr->area->set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
           bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
           draw_button(*bPtr);
+          delay(250);
           break;
         case MODIFY_INPUT:
           break;
