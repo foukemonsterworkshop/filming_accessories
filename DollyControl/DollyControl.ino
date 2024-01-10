@@ -85,10 +85,10 @@ void loop(void)
 
     if(debug){
       Serial.println("Button Region: ");
-      Serial.println(menuPtr->button.area.x);
-      Serial.println(menuPtr->button.area.x2);
-      Serial.println(menuPtr->button.area.y);
-      Serial.println(menuPtr->button.area.y2);
+      Serial.println(menuPtr->button->area.x);
+      Serial.println(menuPtr->button->area.x2);
+      Serial.println(menuPtr->button->area.y);
+      Serial.println(menuPtr->button->area.y2);
     }
 
     if(menuPtr->is_pressed(px, py)){
@@ -99,13 +99,13 @@ void loop(void)
       //react to being clicked
       //draw_shape(*menuPtr);
       
-      switch(menuPtr->button.action){
+      switch(menuPtr->button->action){
         case NAVIGATE:
-          current_state = menuPtr->button.navigateTarget;
+          current_state = menuPtr->button->navigateTarget;
           requires_redraw = true;
           break;
         case UPDATE_VALUE: 
-          *menuPtr->button.affectedBoolean = !*menuPtr->button.affectedBoolean;
+          *menuPtr->button->affectedBoolean = !*menuPtr->button->affectedBoolean;
           break;
         case MODIFY_INPUT:
           break;

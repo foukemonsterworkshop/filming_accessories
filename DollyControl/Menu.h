@@ -72,26 +72,33 @@ class Button{
 
     ButtonAction action;
 
+    Label label;
+    String value;
+
     boolean *affectedBoolean;
     String debugStr = "";
 
     Button(){}
-    Button(DisplayShape area, ButtonAction action){
+    Button(DisplayShape area, Label label, ButtonAction action){
         this->area = area;
+        this->label = label;
         this->action = action;
     }
-    Button(DisplayShape area, ButtonAction action, MenuState navigateTarget){
+    Button(DisplayShape area, Label label, ButtonAction action, MenuState navigateTarget){
         this->area = area;
+        this->label = label;
         this->action = action;
         this->navigateTarget = navigateTarget;
     }
-    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action){
+    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action){
         this->area = area;
+        this->label = label;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
     }
-    Button(DisplayShape area, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
+    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
         this->area = area;
+        this->label = label;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
         this->navigateTarget = navigateTarget;
@@ -111,16 +118,15 @@ class MenuItem{
   public:
     DisplayShape area;
     
-    Label label;
-    Button button;
+    Button *button;
+    int button_size = 0;
     
     boolean initialized = false;
     String name;
 
     MenuItem(){}
-    MenuItem(DisplayShape area, Label label, Button button, String name){
+    MenuItem(DisplayShape area, Button *button, String name){
         this->area = area;
-        this->label = label;
         this->button = button;
         this->initialized = true;
         this->name = name;

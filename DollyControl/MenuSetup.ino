@@ -2,8 +2,6 @@ MenuItem home_nav_button(){
   int x = lcd.Get_Width() - 15;
   int y = lcd.Get_Height() - 15;
   DisplayShape circle = DisplayShape(x,y,25, DARKGREY);
-  Button home_button = Button(circle, NAVIGATE, MAIN);
-
   String label = "Home";
   int label_size = 1;
   Label home_label = Label(label, 
@@ -12,8 +10,9 @@ MenuItem home_nav_button(){
       label_size,
       BLACK, BLACK, 1
   );
+  Button home_button = Button(circle, home_label, NAVIGATE, MAIN);
 
-  MenuItem home_nav_button = MenuItem(circle, home_label, home_button, "home_nav");
+  MenuItem home_nav_button = MenuItem(circle, &home_button, "home_nav");
   Serial.print("Home button created");
   Serial.print(home_button.navigateTarget);
 
@@ -42,49 +41,49 @@ Menu init_main_menu(){
 
   DisplayShape stepperMotorArea = DisplayShape(border, xOffset, border, border+selectionHeight, LIGHTGREY);
 
-  Button stepperMotorState = Button(stepperMotorArea, &steppersActive, UPDATE_VALUE);
   Label stepperLabel = Label("Motors Active",40,labelYOffset,2,GREEN, BLUE,1);
-  MenuItem stepperMotorControl = MenuItem(stepperMotorArea, stepperLabel, stepperMotorState, "stepper");
+  Button stepperMotorState = Button(stepperMotorArea, stepperLabel, &steppersActive, UPDATE_VALUE);
+  MenuItem stepperMotorControl = MenuItem(stepperMotorArea, &stepperMotorState, "stepper");
 
   array[0] = stepperMotorControl;
 
   DisplayShape homeMachineArea = DisplayShape(border,xOffset,((2*border)+selectionHeight),(2*(border+selectionHeight)), LIGHTGREY);
 
-  Button homeMachineButton = Button(homeMachineArea, NAVIGATE, HOME);
   Label homeLabel = Label("Home Machine",labelXOffset,labelYOffset+(selectionHeight+border),2,BLACK, BLUE,1);
-  MenuItem homeMachineSelection = MenuItem(homeMachineArea, homeLabel, homeMachineButton, "home");
+  Button homeMachineButton = Button(homeMachineArea, homeLabel, NAVIGATE, HOME);
+  MenuItem homeMachineSelection = MenuItem(homeMachineArea, &homeMachineButton, "home");
 
   array[1] = homeMachineSelection;
 
   DisplayShape jogMachineArea = DisplayShape(border,xOffset,(3*border)+(2*selectionHeight),3*(border+selectionHeight), LIGHTGREY);
 
-  Button jogMachineButton = Button(jogMachineArea, NAVIGATE, JOG);
   Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(2*(selectionHeight+border)),2,BLACK, BLUE,1);
-  MenuItem jogMachineSelection = MenuItem(jogMachineArea, jogLabel, jogMachineButton, "jog");
+  Button jogMachineButton = Button(jogMachineArea, jogLabel, NAVIGATE, JOG);
+  MenuItem jogMachineSelection = MenuItem(jogMachineArea, &jogMachineButton, "jog");
 
   array[2] = jogMachineSelection;
 
   DisplayShape panMachineArea = DisplayShape(border,xOffset,(4*border)+(3*selectionHeight),4*(border+selectionHeight), LIGHTGREY);
 
-  Button panMachineButton = Button(panMachineArea, NAVIGATE, PAN);
   Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(3*(selectionHeight+border)),2,BLACK, BLUE,1);
-  MenuItem panMachineSelection = MenuItem(panMachineArea, panLabel, panMachineButton, "pan");
+  Button panMachineButton = Button(panMachineArea, panLabel, NAVIGATE, PAN);
+  MenuItem panMachineSelection = MenuItem(panMachineArea, &panMachineButton, "pan");
 
   array[3] = panMachineSelection;
 
   DisplayShape truckMachineArea = DisplayShape(border,xOffset,(5*border)+(4*selectionHeight),5*(border+selectionHeight), LIGHTGREY);
 
-  Button truckMachineButton = Button(truckMachineArea, NAVIGATE, TRUCK);
   Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(4*(selectionHeight+border)),2,BLACK, BLUE,1);
-  MenuItem truckMachineSelection = MenuItem(truckMachineArea, truckLabel, truckMachineButton, "truck");
+  Button truckMachineButton = Button(truckMachineArea, truckLabel, NAVIGATE, TRUCK);
+  MenuItem truckMachineSelection = MenuItem(truckMachineArea, &truckMachineButton, "truck");
 
   array[4] = truckMachineSelection;
 
   DisplayShape parallaxMachineArea = DisplayShape(border,xOffset,(6*border)+(5*selectionHeight),6*(border+selectionHeight), LIGHTGREY);
 
-  Button parallaxMachineButton = Button(parallaxMachineArea, NAVIGATE, PARALLAX);
   Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(5*(selectionHeight+border)),2,BLACK, BLUE,1);
-  MenuItem paralaxMachineSelection = MenuItem(parallaxMachineArea, parallaxLabel, parallaxMachineButton, "parallax");
+  Button parallaxMachineButton = Button(parallaxMachineArea, parallaxLabel, NAVIGATE, PARALLAX);
+  MenuItem paralaxMachineSelection = MenuItem(parallaxMachineArea, &parallaxMachineButton, "parallax");
 
   array[5] = paralaxMachineSelection;
 
@@ -97,10 +96,10 @@ Menu init_home_machine_menu(){
   int xOffset = lcd.Get_Display_Width()-border;
 
   DisplayShape homeMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
-  Button test = Button(homeMachineArea, UPDATE_VALUE);
-
   Label testLabel = Label("Home Machine",40,10,2,GREEN, BLUE,1);
-  MenuItem homeControl = MenuItem(homeMachineArea, testLabel, test, "test");
+  Button test = Button(homeMachineArea, testLabel, UPDATE_VALUE);
+
+  MenuItem homeControl = MenuItem(homeMachineArea, &test, "test");
 
   MenuItem *array = new MenuItem[2];
   array[0] = homeControl;
@@ -114,11 +113,11 @@ Menu init_jog_menu(){
   int selectionHeight = 30;
   int xOffset = lcd.Get_Display_Width()-border;
 
-  DisplayShape jogMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
-  Button test = Button(jogMachineArea, UPDATE_VALUE);
-
   Label testLabel = Label("Jog Machine",40,10,2,GREEN, BLUE,1);
-  MenuItem jogControl = MenuItem(jogMachineArea, testLabel, test, "test");
+  DisplayShape jogMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
+  Button test = Button(jogMachineArea, testLabel, UPDATE_VALUE);
+
+  MenuItem jogControl = MenuItem(jogMachineArea, &test, "test");
 
   MenuItem *array = new MenuItem[2];
   array[0] = jogControl;
@@ -133,10 +132,10 @@ Menu init_pan_menu(){
   int xOffset = lcd.Get_Display_Width()-border;
 
   DisplayShape panMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
-  Button test = Button(panMachineArea, UPDATE_VALUE);
-
   Label testLabel = Label("Pan",40,10,2,GREEN, BLUE,1);
-  MenuItem panControl = MenuItem(panMachineArea, testLabel, test, "test");
+  Button test = Button(panMachineArea, testLabel, UPDATE_VALUE);
+  
+  MenuItem panControl = MenuItem(panMachineArea, &test, "test");
 
   MenuItem *array = new MenuItem[2];
   array[0] = panControl;
@@ -151,10 +150,10 @@ Menu init_truck_menu(){
   int xOffset = lcd.Get_Display_Width()-border;
 
   DisplayShape truckMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
-  Button test = Button(truckMachineArea, UPDATE_VALUE);
-
   Label testLabel = Label("Truck",40,10,2,GREEN, BLUE,1);
-  MenuItem truckControl = MenuItem(truckMachineArea, testLabel, test, "test");
+  Button test = Button(truckMachineArea, testLabel, UPDATE_VALUE);
+
+  MenuItem truckControl = MenuItem(truckMachineArea, &test, "test");
 
   MenuItem *array = new MenuItem[2];
   array[0] = truckControl;
@@ -169,10 +168,10 @@ Menu init_parallax_menu(){
   int xOffset = lcd.Get_Display_Width()-border;
 
   DisplayShape parallaxMachineArea = DisplayShape(border,xOffset,border,30, LIGHTGREY);
-  Button parallax_button = Button(parallaxMachineArea, UPDATE_VALUE);
-
   Label parallax_label = Label("Parallax",40,10,2,GREEN, BLUE,1);
-  MenuItem parallaxControl = MenuItem(parallaxMachineArea, parallax_label, parallax_button, "test");
+  Button parallax_button = Button(parallaxMachineArea, parallax_label, UPDATE_VALUE);
+
+  MenuItem parallaxControl = MenuItem(parallaxMachineArea, &parallax_button, "test");
 
   MenuItem *array = new MenuItem[2];
   array[0] = parallaxControl;
@@ -180,3 +179,4 @@ Menu init_parallax_menu(){
 
   return Menu(array,  2, "parallax");
 }
+

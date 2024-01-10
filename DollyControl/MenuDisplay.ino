@@ -3,8 +3,17 @@ void draw_menu(Menu menu){
   MenuItem* ptr = menu.items;
   for(int i = 0; i < menu.size; i++){
     if(ptr->initialized){
-      draw_shape(ptr->button.area);
-      show_label(ptr->label);
+      if(ptr->button_size>0){
+        for(int j = 0; j < ptr->button_size; j++){
+          draw_shape(ptr->button->area);
+          show_label(ptr->button->label);
+          ptr->button++;
+        }
+      }
+      else{
+        draw_shape(ptr->button->area);
+        show_label(ptr->button->label);
+      }
       Serial.println("Drawn menuItem: " + ptr->name);
     }
     ptr++;
