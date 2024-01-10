@@ -6,26 +6,30 @@ class DisplayShape{
 
     int width,height,radius;
 
-    int16_t bgColor;
+    int16_t bg_color;
 
     DisplayShape(){}
-    DisplayShape(int x,int x2,int y,int y2, int16_t bgColor){
+    DisplayShape(int x,int x2,int y,int y2, int16_t bg_color){
       this->x=x;
       this->x2=x2;
       this->y=y;
       this->y2=y2;
       this->width = (x2-x);
       this->height = (y2-y);
-      this->bgColor = bgColor;
+      this->bg_color = bg_color;
       this->display_type = RECTANGLE;
     }
 
-    DisplayShape(int x, int y, int radius, int16_t bgColor){
+    DisplayShape(int x, int y, int radius, int16_t bg_color){
       this->x = x;
       this->y = y;
       this->radius = radius;
-      this->bgColor = bgColor;
+      this->bg_color = bg_color;
       this->display_type = CIRCLE;
+    }
+
+    void set_color(int bg_color){
+      this->bg_color= bg_color;
     }
 
     boolean is_pressed(int px, int py){
@@ -66,6 +70,10 @@ class Label{
 
         this->initialized = true;
     }
+
+    void set_content(String content){
+      this->content = content;
+    }
 };
 
 class Button{
@@ -83,6 +91,9 @@ class Button{
     
     boolean initialized = false;
 
+    int active_color, inactive_color;
+    String active_text, inactive_text;
+
     Button(){}
     Button(DisplayShape area, Label label, ButtonAction action){
         this->area = area;
@@ -99,13 +110,19 @@ class Button{
 
         this->initialized = true;
     }
-    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action){
+    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, String active_text, String inactive_text){
         this->area = area;
         this->label = label;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
 
         this->initialized = true;
+
+        this->active_color = GREEN;
+        this->inactive_color = RED;
+
+        this->active_text = active_text;
+        this->inactive_text = inactive_text;
     }
     Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
         this->area = area;

@@ -33,44 +33,46 @@ Menu init_main_menu(){
   int button_size = 6;
   Button *array = new Button[button_size];
 
-  DisplayShape stepperMotorArea = DisplayShape(border, xOffset, border, border+selectionHeight, LIGHTGREY);
+  DisplayShape stepperMotorArea = DisplayShape(border, xOffset, border, border+selectionHeight, GREEN);
 
-  Label stepperLabel = Label("Motors Active",40,labelYOffset,2,GREEN, BLUE,1);
-  Button stepperMotorState = Button(stepperMotorArea, stepperLabel, &steppersActive, UPDATE_VALUE);
+  String active_text = "Motors Active";
+  String inactive_text = "Motors Inactive";
+  Label stepperLabel = Label(active_text,40,labelYOffset,2,BLACK, BLACK,1);
+  Button stepperMotorState = Button(stepperMotorArea, stepperLabel, &steppersActive, UPDATE_VALUE, active_text, inactive_text);
 
   array[0] = stepperMotorState;
 
   DisplayShape homeMachineArea = DisplayShape(border,xOffset,((2*border)+selectionHeight),(2*(border+selectionHeight)), LIGHTGREY);
 
-  Label homeLabel = Label("Home Machine",labelXOffset,labelYOffset+(selectionHeight+border),2,BLACK, BLUE,1);
+  Label homeLabel = Label("Home Machine",labelXOffset,labelYOffset+(selectionHeight+border),2,BLACK, BLACK,1);
   Button homeMachineButton = Button(homeMachineArea, homeLabel, NAVIGATE, HOME);
 
   array[1] = homeMachineButton;
 
   DisplayShape jogMachineArea = DisplayShape(border,xOffset,(3*border)+(2*selectionHeight),3*(border+selectionHeight), LIGHTGREY);
 
-  Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(2*(selectionHeight+border)),2,BLACK, BLUE,1);
+  Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(2*(selectionHeight+border)),2,BLACK, BLACK,1);
   Button jogMachineButton = Button(jogMachineArea, jogLabel, NAVIGATE, JOG);
 
   array[2] = jogMachineButton;
 
   DisplayShape panMachineArea = DisplayShape(border,xOffset,(4*border)+(3*selectionHeight),4*(border+selectionHeight), LIGHTGREY);
 
-  Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(3*(selectionHeight+border)),2,BLACK, BLUE,1);
+  Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(3*(selectionHeight+border)),2,BLACK, BLACK,1);
   Button panMachineButton = Button(panMachineArea, panLabel, NAVIGATE, PAN);
 
   array[3] = panMachineButton;
 
   DisplayShape truckMachineArea = DisplayShape(border,xOffset,(5*border)+(4*selectionHeight),5*(border+selectionHeight), LIGHTGREY);
 
-  Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(4*(selectionHeight+border)),2,BLACK, BLUE,1);
+  Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(4*(selectionHeight+border)),2,BLACK, BLACK,1);
   Button truckMachineButton = Button(truckMachineArea, truckLabel, NAVIGATE, TRUCK);
 
   array[4] = truckMachineButton;
 
   DisplayShape parallaxMachineArea = DisplayShape(border,xOffset,(6*border)+(5*selectionHeight),6*(border+selectionHeight), LIGHTGREY);
 
-  Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(5*(selectionHeight+border)),2,BLACK, BLUE,1);
+  Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(5*(selectionHeight+border)),2,BLACK, BLACK,1);
   Button parallaxMachineButton = Button(parallaxMachineArea, parallaxLabel, NAVIGATE, PARALLAX);
 
   array[5] = parallaxMachineButton;

@@ -13,8 +13,7 @@ void draw_menu(Menu menu){
     Serial.println("Initialized: ");
     Serial.println(bPtr->initialized);
     if(bPtr->initialized){
-      draw_shape(bPtr->area);
-      show_label(bPtr->label);
+      draw_button(*bPtr);
       Serial.println("Drawn button: " + bPtr->label.content);
     }
     bPtr++;
@@ -22,22 +21,20 @@ void draw_menu(Menu menu){
   Serial.println("Finished drawing menu: " + menu.name);
 }
 
-void draw_buttons(Button *buttons, int size){
-  for(int j = 0; j < size; j++){
-    
-    buttons++;
-  }
+void draw_button(Button button){
+  draw_shape(button.area);
+  show_label(button.label);
 }
 
 void draw_shape(DisplayShape shape){
   switch(shape.display_type){
     case RECTANGLE:
       Serial.println("Drawing Rectangle");
-      draw_rectangle(shape, shape.bgColor);
+      draw_rectangle(shape, shape.bg_color);
       break;
     case CIRCLE:
       Serial.println("Drawing Circle");
-      draw_circle(shape, shape.bgColor);
+      draw_circle(shape, shape.bg_color);
       break;
   }
 }

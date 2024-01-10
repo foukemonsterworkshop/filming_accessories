@@ -113,6 +113,9 @@ void loop(void)
           break;
         case UPDATE_VALUE: 
           *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
+          bPtr->area.set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
+          bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
+          draw_button(*bPtr);
           break;
         case MODIFY_INPUT:
           break;
