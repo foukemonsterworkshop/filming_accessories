@@ -4,19 +4,24 @@ void draw_menu(Menu menu){
   Label* lPtr = menu.labels;
 
   for(int i = 0; i < menu.button_size; i++){
+    print_pointer_info(*bPtr);
     if(bPtr->initialized){
       draw_button(*bPtr);
-      Serial.println("Drawn button: " + bPtr->label.content);
     }
     bPtr++;
   }
   Serial.println("Finished drawing menu: " + menu.name);
 }
 
+void print_pointer_info(Button button){
+  Serial.println("Parsing button: " + button.label.content);
+  Serial.println("Display Type: " + button.display->print_type());
+  Serial.println("Color: " + button.display->bg_color);
+}
+
 void draw_button(Button button){
-  Serial.println("Display Type associated with " + button.label.content);
-  Serial.println(button.area->display_type);
-  draw_shape(button.area);
+  Serial.println(button.display->display_type);
+  draw_shape(button.display);
   show_label(button.label);
 }
 
@@ -33,9 +38,11 @@ void draw_shape(DisplayShape *shape){
       draw_circle(shape);
       break;
     case TRIANGLE:
+      Serial.println("Drawing Triangle");
       draw_triangle(shape);
       break;
     case ARROW:
+      Serial.println("Drawing Arrow");
       break;
   }
 }

@@ -1,6 +1,5 @@
 class DisplayShape{
   public:
-    virtual boolean is_pressed(int px, int py);
     int x,x2,y,y2;
 
     DisplayType display_type;
@@ -17,14 +16,14 @@ class DisplayShape{
       this->bg_color= bg_color;
     }
 
-    String print_type(){
+    virtual String print_type(){
       return "Called parent function";
     }
-};
 
-boolean DisplayShape::is_pressed(int px, int py){
-  return false;
-}
+    virtual boolean is_pressed(int px, int py){
+      return false;
+    }
+};
 
 class Rectangle : public DisplayShape{
   public:
@@ -43,16 +42,14 @@ class Rectangle : public DisplayShape{
       this->bg_color = bg_color;
     }
 
-    virtual boolean is_pressed (int px, int py);
+    boolean is_pressed(int px, int py){
+      return px > x && px < x2 && py > y && py < y2;
+    }
 
     String print_type(){
       return "Rectangle";
     }
 };
-
-boolean Rectangle::is_pressed(int px, int py){
-  return px > x && px < x2 && py > y && py < y2;
-}
 
 class Circle : public DisplayShape{
   public:
@@ -66,7 +63,7 @@ class Circle : public DisplayShape{
       this->bg_color = bg_color;
     }
 
-    boolean is_pressed(int px,int py) override {
+    boolean is_pressed(int px,int py) {
       return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
     }
 

@@ -9,7 +9,7 @@ Button return_nav_button(MenuState return_menu, String label_text){
       label_size,
       BLACK, BLACK, 1
   );
-  return Button(&circle, nav_label, NAVIGATE, return_menu);
+  return Button(&circle, nav_label, return_menu);
 }
 
 Menu init_menu(MenuState state){
@@ -32,92 +32,106 @@ Menu init_main_menu(){
 
   Serial.println("Initializing Main Menu");
 
-  int button_size = 6;
+  int button_size = 20;
   Button *array = new Button[button_size];
 
   int offsetIndex = 1;
   int selectionIndex = 0;
 
-  Rectangle stepperMotorArea = Rectangle(border, 
+  Rectangle stepperMotordisplay = Rectangle(border, 
                                           xOffset, 
                                           (offsetIndex*border)+(selectionIndex*selectionHeight),
                                           (offsetIndex*(border+selectionHeight)), true, GREEN);
 
+
   String active_text = "Motors Active";
   String inactive_text = "Motors Inactive";
   Label stepperLabel = Label(active_text,labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-  Button stepperMotorState = Button(&stepperMotorArea, stepperLabel, &steppersActive, UPDATE_VALUE, active_text, inactive_text);
+  Button stepperMotorState = Button(&stepperMotordisplay, stepperLabel, &steppersActive, active_text, inactive_text);
 
   array[0] = stepperMotorState;
-
+/*
   offsetIndex++;
   selectionIndex++;
 
-  Rectangle homeMachineArea = Rectangle(border,
+  Rectangle homeMachinedisplay = Rectangle(border,
                                         xOffset,
                                         (offsetIndex*border)+(selectionIndex*selectionHeight),
                                         (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
 
+  DisplayShape *homemPtr = &homeMachinedisplay;
+
   Label homeLabel = Label("Home Machine",labelXOffset,labelYOffset+selectionIndex*(selectionHeight+border),2,BLACK, BLACK,1);
-  Button homeMachineButton = Button(&homeMachineArea, homeLabel, NAVIGATE, HOME);
+  Button homeMachineButton = Button(homemPtr, homeLabel, HOME);
 
   array[1] = homeMachineButton;
 
   offsetIndex++;
   selectionIndex++;
 
-  Rectangle jogMachineArea = Rectangle(border,
+  Rectangle jogMachinedisplay = Rectangle(border,
                                         xOffset,
                                         (offsetIndex*border)+(selectionIndex*selectionHeight),
                                         (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
 
+  DisplayShape *jogPtr = &jogMachinedisplay;
+
   Label jogLabel = Label("Jog Machine",labelXOffset,labelYOffset+(selectionIndex*(selectionHeight+border)),2,BLACK, BLACK,1);
-  Button jogMachineButton = Button(&jogMachineArea, jogLabel, NAVIGATE, JOG);
+  Button jogMachineButton = Button(jogPtr, jogLabel, JOG);
 
   array[2] = jogMachineButton;
 
   offsetIndex++;
   selectionIndex++;
 
-  Rectangle panMachineArea = Rectangle(border,
+  delay(2000);
+
+  Rectangle panMachinedisplay = Rectangle(border,
                                         xOffset,
                                         (offsetIndex*border)+(selectionIndex*selectionHeight),
                                         (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
 
+  DisplayShape *panPtr = &panMachinedisplay;
+
   Label panLabel = Label("Pan Machine",labelXOffset,labelYOffset+(selectionIndex*(selectionHeight+border)),2,BLACK, BLACK,1);
-  Button panMachineButton = Button(&panMachineArea, panLabel, NAVIGATE, PAN);
+  Button panMachineButton = Button(panPtr, panLabel, PAN);
 
   array[3] = panMachineButton;
 
   offsetIndex++;
   selectionIndex++;
-/*
-  Rectangle truckMachineArea = Rectangle(border,
-                                          xOffset,
-                                          (offsetIndex*border)+(selectionIndex*selectionHeight),
-                                          (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
+
+  Rectangle truckMachinedisplay = Rectangle(border,
+                                            xOffset,
+                                            (offsetIndex*border)+(selectionIndex*selectionHeight),
+                                            (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
+
+  DisplayShape *truckPtr = &truckMachinedisplay;
 
   Label truckLabel = Label("Truck Machine",labelXOffset,labelYOffset+(selectionIndex*(selectionHeight+border)),2,BLACK, BLACK,1);
-  Button truckMachineButton = Button(&truckMachineArea, truckLabel, NAVIGATE, TRUCK);
+  Button truckMachineButton = Button(truckPtr, truckLabel, TRUCK);
 
   array[4] = truckMachineButton;
-*/
+
   offsetIndex++;
   selectionIndex++;
 
   Serial.println(offsetIndex);
   Serial.println(selectionIndex);
 
-  Rectangle parallaxMachineArea = Rectangle(border,
+  Rectangle parallaxMachinedisplay = Rectangle(border,
                                             xOffset,
                                             (offsetIndex*border)+(selectionIndex*selectionHeight),
                                             (offsetIndex*(border+selectionHeight)), false, LIGHTGREY);
 
+  DisplayShape *parallaxPtr = &parallaxMachinedisplay;
+
   Label parallaxLabel = Label("Parallax Machine",labelXOffset,labelYOffset+(selectionIndex*(selectionHeight+border)),2,BLACK, BLACK,1);
-  Button parallaxMachineButton = Button(&parallaxMachineArea, parallaxLabel, NAVIGATE, PARALLAX);
+  Button parallaxMachineButton = Button(parallaxPtr, parallaxLabel, PARALLAX);
 
   array[5] = parallaxMachineButton;
-
+*/
+  Serial.println("returning");
   return Menu(array, button_size, "main");
 }
 
@@ -129,9 +143,9 @@ Menu init_home_machine_menu(){
   int button_size = 2;
   Button *array = new Button[button_size];
 
-  Triangle homeMachineArea = Triangle(lcd.Get_Width()/2, lcd.Get_Height()/2, 30, NERP, BLUE);
+  Triangle homeMachinedisplay = Triangle(lcd.Get_Width()/2, lcd.Get_Height()/2, 30, NERP, BLUE);
   Label testLabel = Label("Home Machine",40,10,2,GREEN, BLUE,1);
-  Button test = Button(&homeMachineArea, testLabel, UPDATE_VALUE);
+  Button test = Button(&homeMachinedisplay, testLabel, UPDATE_VALUE);
 
   array[0] = test;
   array[1] = return_nav_button(MAIN, "Home");
@@ -148,8 +162,8 @@ Menu init_jog_menu(){
   Button *array = new Button[button_size];
 
   Label testLabel = Label("Jog Machine",40,10,2,GREEN, BLUE,1);
-  Rectangle jogMachineArea = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
-  Button test = Button(&jogMachineArea, testLabel, UPDATE_VALUE);
+  Rectangle jogMachinedisplay = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
+  Button test = Button(&jogMachinedisplay, testLabel, UPDATE_VALUE);
 
   array[0] = test;
   array[1] = return_nav_button(MAIN, "Home");
@@ -165,9 +179,9 @@ Menu init_pan_menu(){
   int button_size = 2;
   Button *array = new Button[button_size];
 
-  Rectangle panMachineArea = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
+  Rectangle panMachinedisplay = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
   Label testLabel = Label("Pan",40,10,2,GREEN, BLUE,1);
-  Button test = Button(&panMachineArea, testLabel, UPDATE_VALUE);
+  Button test = Button(&panMachinedisplay, testLabel, UPDATE_VALUE);
 
   array[0] = test;
   array[1] = return_nav_button(MAIN, "Home");
@@ -183,9 +197,9 @@ Menu init_truck_menu(){
   int button_size = 2;
   Button *array = new Button[button_size];
 
-  Rectangle truckMachineArea = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
+  Rectangle truckMachinedisplay = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
   Label testLabel = Label("Truck",40,10,2,GREEN, BLUE,1);
-  Button test = Button(&truckMachineArea, testLabel, UPDATE_VALUE);
+  Button test = Button(&truckMachinedisplay, testLabel, UPDATE_VALUE);
 
   array[0] = test;
   array[1] = return_nav_button(MAIN, "Home");
@@ -201,9 +215,9 @@ Menu init_parallax_menu(){
   int button_size = 2;
   Button *array = new Button[button_size];
 
-  Rectangle parallaxMachineArea = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
+  Rectangle parallaxMachinedisplay = Rectangle(border,xOffset,border,30, false, LIGHTGREY);
   Label parallax_label = Label("Parallax",40,10,2,GREEN, BLUE,1);
-  Button parallax_button = Button(&parallaxMachineArea, parallax_label, UPDATE_VALUE);
+  Button parallax_button = Button(&parallaxMachinedisplay, parallax_label, UPDATE_VALUE);
 
   array[0] = parallax_button;
   array[1] = return_nav_button(MAIN, "Home");

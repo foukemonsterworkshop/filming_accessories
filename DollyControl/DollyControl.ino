@@ -20,11 +20,13 @@ Menu current_menu;
 //machine travel variables
 boolean steppersActive = true;
 
+/*
 struct StepperMove {
   int speed = 0;
   int duration = 0;
   Unit unit = SECOND;
 } motion;
+*/
 
 /*
 // Defines the number of steps per rotation
@@ -45,15 +47,19 @@ void setup(void)
   lcd.Fill_Screen(WHITE);
   
   Serial.begin(600);
-  Serial.println("Initializing...");
-  current_menu = init_main_menu();
-  draw_menu(current_menu);
-  Serial.println("Exiting setup");
 
+  Serial.println("Finished General Setup");
+
+  current_menu = init_main_menu();
+  Serial.println("Finished init, drawing...");
+  draw_menu(current_menu);
+
+  Serial.println("Finished drawing, entering main loop...");
 }
 
 void loop(void)
 {
+  Serial.println("Entered main loop");
 
 /*
   gantry_stepper.setSpeed(20);
@@ -77,7 +83,7 @@ void loop(void)
     px = touch.x;
     py = touch.y;
   }
-  
+
   Button* bPtr = current_menu.buttons;
   if(debug){
       Serial.println("Testing clicks in: ");
@@ -90,12 +96,12 @@ void loop(void)
   for(int i = 0; i < current_menu.button_size; i++){
     if(!bPtr->initialized)break;
     if(debug){
-      Serial.println(bPtr->area->display_type);
+      Serial.println(bPtr->display->display_type);
       Serial.println("Button Region: ");
-      Serial.println(bPtr->area->x);
-      Serial.println(bPtr->area->x2);
-      Serial.println(bPtr->area->y);
-      Serial.println(bPtr->area->y2);
+      Serial.println(bPtr->display->x);
+      Serial.println(bPtr->display->x2);
+      Serial.println(bPtr->display->y);
+      Serial.println(bPtr->display->y2);
     }
 
     if(bPtr->is_pressed(px, py)){
@@ -109,7 +115,7 @@ void loop(void)
           break;
         case UPDATE_VALUE: 
           *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
-          bPtr->area->set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
+          bPtr->display->set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
           bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
           draw_button(*bPtr);
           delay(250);
