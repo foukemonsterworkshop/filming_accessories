@@ -1,24 +1,32 @@
 void draw_menu(Menu menu){
   Serial.println("Drawing menu: " + menu.name);
-  MenuItem* ptr = menu.items;
-  for(int i = 0; i < menu.size; i++){
-    if(ptr->initialized){
-      if(ptr->button_size>0){
-        for(int j = 0; j < ptr->button_size; j++){
-          draw_shape(ptr->button->area);
-          show_label(ptr->button->label);
-          ptr->button++;
-        }
-      }
-      else{
-        draw_shape(ptr->button->area);
-        show_label(ptr->button->label);
-      }
-      Serial.println("Drawn menuItem: " + ptr->name);
+  Button* bPtr = menu.buttons;
+  Label* lPtr = menu.labels; 
+  Serial.println("Attempting Drawing button");
+  Serial.println("Initialized: ");
+  Serial.println(bPtr->initialized);
+
+  Serial.println(menu.button_size);
+
+  for(int i = 0; i < menu.button_size; i++){
+    Serial.println("Attempting Drawing button");
+    Serial.println("Initialized: ");
+    Serial.println(bPtr->initialized);
+    if(bPtr->initialized){
+      draw_shape(bPtr->area);
+      show_label(bPtr->label);
+      Serial.println("Drawn button: " + bPtr->label.content);
     }
-    ptr++;
+    bPtr++;
   }
   Serial.println("Finished drawing menu: " + menu.name);
+}
+
+void draw_buttons(Button *buttons, int size){
+  for(int j = 0; j < size; j++){
+    
+    buttons++;
+  }
 }
 
 void draw_shape(DisplayShape shape){
@@ -35,7 +43,6 @@ void draw_shape(DisplayShape shape){
 }
 
 void draw_rectangle(DisplayShape rectangle, int16_t color){
-  Serial.print("starting y: " + rectangle.y);
   lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
 }
 
@@ -45,7 +52,6 @@ void draw_circle(DisplayShape circle, int16_t color){
 }
 
 void show_label(Label label){
-    Serial.println("Drawing Label: " + label.content);
     lcd.Set_Text_Mode(label.mode);
     lcd.Set_Text_Size(label.textSize);
     lcd.Set_Text_colour(label.textColor);

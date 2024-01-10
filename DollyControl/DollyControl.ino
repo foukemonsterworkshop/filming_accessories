@@ -2,8 +2,6 @@
 #include <LCDWIKI_SPI.h> //Hardware-specific library
 #include <LCDWIKI_TOUCH.h> //touch screen library
 
-#include "switch_font.c"
-
 #include "ScreenDefinitions.h"
 #include "MenuEnums.h"
 #include "Menu.h"
@@ -22,11 +20,19 @@ Menu current_menu;
 //machine travel variables
 boolean steppersActive = true;
 
+struct StepperMove {
+  int speed = 0;
+  int duration = 0;
+  Unit unit = SECOND;
+} motion;
+
+/*
 // Defines the number of steps per rotation
 const int stepsPerRevolution = 2038;
 // Creates an instance of stepper class
 // Pins entered in sequence IN1-IN3-IN2-IN4 for proper step sequence
 Stepper gantry_stepper = Stepper(stepsPerRevolution, 8, 10, 9, 11);
+*/
 
 void setup(void) 
 {    
@@ -38,17 +44,19 @@ void setup(void)
   touch.TP_Init(lcd.Get_Rotation(),lcd.Get_Display_Width(),lcd.Get_Display_Height()); 
   lcd.Fill_Screen(WHITE);
   
-  Serial.begin(9600);
+  Serial.begin(1200);
   Serial.println("Initializing...");
   current_menu = init_main_menu();
   draw_menu(current_menu);
   Serial.println("Exiting setup");
+
 
 }
 
 void loop(void)
 {
 
+/*
   gantry_stepper.setSpeed(20);
 	gantry_stepper.step(stepsPerRevolution);
 	delay(1000);
@@ -57,7 +65,7 @@ void loop(void)
 	gantry_stepper.setSpeed(30);
 	gantry_stepper.step(-stepsPerRevolution);
 	delay(1000);
-
+*/
   boolean debug = false;
 
   boolean requires_redraw = false;
@@ -71,7 +79,7 @@ void loop(void)
     py = touch.y;
   }
   
-  MenuItem* menuPtr = current_menu.items;
+  Button* bPtr = current_menu.buttons;
   if(debug){
       Serial.println("Testing clicks in: ");
       Serial.println(current_menu.name);
@@ -80,32 +88,31 @@ void loop(void)
       Serial.println(py); 
   }
 
-  for(int i = 0; i < current_menu.size; i++){
-    if(!menuPtr->initialized)break;
+  for(int i = 0; i < current_menu.button_size; i++){
+    if(!bPtr->initialized)break;
 
     if(debug){
       Serial.println("Button Region: ");
-      Serial.println(menuPtr->button->area.x);
-      Serial.println(menuPtr->button->area.x2);
-      Serial.println(menuPtr->button->area.y);
-      Serial.println(menuPtr->button->area.y2);
+      Serial.println(bPtr->area.x);
+      Serial.println(bPtr->area.x2);
+      Serial.println(bPtr->area.y);
+      Serial.println(bPtr->area.y2);
     }
 
-    if(menuPtr->is_pressed(px, py)){
+    if(bPtr->is_pressed(px, py)){
       
       if(true){
         Serial.println("clicked: " + i);
       }
       //react to being clicked
       //draw_shape(*menuPtr);
-      
-      switch(menuPtr->button->action){
+      switch(bPtr->action){
         case NAVIGATE:
-          current_state = menuPtr->button->navigateTarget;
+          current_state = bPtr->navigateTarget;
           requires_redraw = true;
           break;
         case UPDATE_VALUE: 
-          *menuPtr->button->affectedBoolean = !*menuPtr->button->affectedBoolean;
+          *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
           break;
         case MODIFY_INPUT:
           break;
@@ -113,7 +120,7 @@ void loop(void)
           Serial.println("bad state");
       }
     }
-    menuPtr++;
+    bPtr++;
   }
 
   if(requires_redraw){

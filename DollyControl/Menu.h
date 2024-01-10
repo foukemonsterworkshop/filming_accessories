@@ -47,10 +47,12 @@ class DisplayShape{
 class Label{
   public:
     int x,y;
-    int16_t textColor, bgTextColor;
-    uint8_t textSize;
+    int textColor, bgTextColor;
+    int textSize;
     String content;
     boolean mode;
+
+    boolean initialized = false;
 
     Label(){}
     Label(String str, int x, int y, uint8_t csize, uint16_t frontTextColor, uint16_t backTextColor, boolean mode){
@@ -61,6 +63,8 @@ class Label{
         this->bgTextColor = backTextColor;
         this->content = str;
         this->mode = mode;
+
+        this->initialized = true;
     }
 };
 
@@ -76,25 +80,32 @@ class Button{
     String value;
 
     boolean *affectedBoolean;
-    String debugStr = "";
+    
+    boolean initialized = false;
 
     Button(){}
     Button(DisplayShape area, Label label, ButtonAction action){
         this->area = area;
         this->label = label;
         this->action = action;
+
+        this->initialized = true;
     }
     Button(DisplayShape area, Label label, ButtonAction action, MenuState navigateTarget){
         this->area = area;
         this->label = label;
         this->action = action;
         this->navigateTarget = navigateTarget;
+
+        this->initialized = true;
     }
     Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action){
         this->area = area;
         this->label = label;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
+
+        this->initialized = true;
     }
     Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
         this->area = area;
@@ -102,10 +113,8 @@ class Button{
         this->affectedBoolean = affectedBoolean;
         this->action = action;
         this->navigateTarget = navigateTarget;
-    }
-    
-    void set_debug_str(String debug){
-      this->debugStr = debug;
+
+        this->initialized = true;
     }
 
     boolean is_pressed(int px, int py){
@@ -114,40 +123,43 @@ class Button{
 
 };
 
-class MenuItem{
-  public:
-    DisplayShape area;
-    
-    Button *button;
-    int button_size = 0;
-    
-    boolean initialized = false;
-    String name;
-
-    MenuItem(){}
-    MenuItem(DisplayShape area, Button *button, String name){
-        this->area = area;
-        this->button = button;
-        this->initialized = true;
-        this->name = name;
-    }
-
-    boolean is_pressed(int px, int py){
-      return area.is_pressed(px,py);
-    }
-};
-
 class Menu{
   public:
-    MenuItem *items;
-    int size = 0;
+    Button *buttons;
+    Label *labels;
+
+    int button_size = 0;
+    int label_size = 0;
 
     String name = "";
 
     Menu(){}
-    Menu(MenuItem pItems[], int size, String name){
-      items = pItems;
-      this->size = size;
-      this->name = name;
+    Menu(Button buttons[], Label labels[], String name){
+        this->buttons = buttons;
+        this->labels = labels;
+        
+        this->name = name;
+
+        this->button_size = sizeof(buttons);
+        this->label_size = sizeof(labels);
+    }
+
+    Menu(Button buttons[], String name){
+        this->buttons = buttons;
+        
+        this->name = name;
+
+        this->button_size = sizeof(buttons);
+        this->label_size = 0;
+    }
+
+    Menu(Label labels[], String name){
+        this->buttons = buttons;
+        this->labels = labels;
+        
+        this->name = name;
+
+        this->button_size = 0;
+        this->label_size = sizeof(labels);
     }
 };
