@@ -5,13 +5,13 @@ class Label{
     int x,y;
     int textColor, bgTextColor;
     int textSize;
-    String content;
+    uint8_t *content;
     boolean mode;
 
     boolean initialized = false;
 
     Label(){}
-    Label(String str, int x, int y, uint8_t csize, uint16_t frontTextColor, uint16_t backTextColor, boolean mode){
+    Label(char str[], int x, int y, uint8_t csize, uint16_t frontTextColor, uint16_t backTextColor, boolean mode){
         this->x = x;
         this->y = y;
         this->textSize = csize;
@@ -23,7 +23,7 @@ class Label{
         this->initialized = true;
     }
 
-    void set_content(String content){
+    void set_content(char content[]){
       this->content = content;
     }
 };
@@ -37,14 +37,14 @@ class Button{
     ButtonAction action;
 
     Label label;
-    String value;
+    uint8_t *value;
 
     boolean *affectedBoolean;
     
     boolean initialized = false;
 
     int active_color, inactive_color;
-    String active_text, inactive_text;
+    uint8_t *active_text, *inactive_text;
 
     Button(){}
     //minimal button
@@ -66,7 +66,7 @@ class Button{
         this->action = NAVIGATE;
     }
     //Boolean state swap button
-    Button(DisplayShape *display, Label label, boolean *affectedBoolean, String active_text, String inactive_text){
+    Button(DisplayShape *display, Label label, boolean *affectedBoolean, uint8_t *active_text, uint8_t *inactive_text){
         this->display = display;
         this->label = label;
         this->affectedBoolean = affectedBoolean;
@@ -96,12 +96,12 @@ class Menu{
     int button_size = 0;
     int label_size = 0;
 
-    String name = "";
+    uint8_t *name;
 
     boolean test;
 
     Menu(){}
-    Menu(Button buttons[], int button_size, Label labels[], int label_size, String name){
+    Menu(Button buttons[], int button_size, Label labels[], int label_size, char name[]){
         this->buttons = buttons;
         this->labels = labels;
         
@@ -111,7 +111,7 @@ class Menu{
         this->label_size = sizeof(labels);
     }
 
-    Menu(Button buttons[], int button_size, String name){
+    Menu(Button buttons[], int button_size, char name[]){
         this->buttons = buttons;
         
         this->name = name;

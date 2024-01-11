@@ -1,10 +1,10 @@
-Button return_nav_button(MenuState return_menu, String label_text){
+Button return_nav_button(MenuState return_menu, char label_text[]){
   int x = lcd.Get_Width() - 15;
   int y = lcd.Get_Height() - 15;
   Circle circle = Circle(x,y,25, DARKGREY);
   int label_size = 1;
   Label nav_label = Label(label_text, 
-      circle.x-label_text.length()*label_size*6/2+label_size/2+1,
+      circle.x-sizeof(label_text)*label_size*6/2+label_size/2+1,
       circle.y-label_size*8/2+label_size/2+1,
       label_size,
       BLACK, BLACK, 1
@@ -32,8 +32,8 @@ Menu init_main_menu(){
 
   Serial.println("Initializing Main Menu");
 
-  int button_size = 20;
-  Button *array = new Button[button_size];
+  int button_size = 6;
+  Button array[button_size];
 
   int offsetIndex = 1;
   int selectionIndex = 0;
@@ -43,14 +43,15 @@ Menu init_main_menu(){
                                           (offsetIndex*border)+(selectionIndex*selectionHeight),
                                           (offsetIndex*(border+selectionHeight)), true, GREEN);
 
+  DisplayShape *shapePtr = &stepperMotordisplay;
 
-  String active_text = "Motors Active";
-  String inactive_text = "Motors Inactive";
-  Label stepperLabel = Label(active_text,labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-  Button stepperMotorState = Button(&stepperMotordisplay, stepperLabel, &steppersActive, active_text, inactive_text);
+  char active_text[] = "Motors Active";
+  char inactive_text[] = "Motors Inactive";
+  Label stepperLabel = Label("Motors Active",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
+  Button stepperMotorState = Button(shapePtr, stepperLabel, &steppersActive, active_text, inactive_text);
 
   array[0] = stepperMotorState;
-/*
+
   offsetIndex++;
   selectionIndex++;
 
@@ -83,8 +84,6 @@ Menu init_main_menu(){
 
   offsetIndex++;
   selectionIndex++;
-
-  delay(2000);
 
   Rectangle panMachinedisplay = Rectangle(border,
                                         xOffset,
@@ -130,9 +129,10 @@ Menu init_main_menu(){
   Button parallaxMachineButton = Button(parallaxPtr, parallaxLabel, PARALLAX);
 
   array[5] = parallaxMachineButton;
-*/
-  Serial.println("returning");
-  return Menu(array, button_size, "main");
+
+  Menu val = Menu(array, button_size, "main");
+  delete(array);
+  return val;
 }
 
 Menu init_home_machine_menu(){

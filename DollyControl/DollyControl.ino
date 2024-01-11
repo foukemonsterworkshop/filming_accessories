@@ -15,7 +15,7 @@ LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 int px,py;
 
 //navigation variables and setup
-Menu current_menu;
+boolean requires_redraw = true;
 
 //machine travel variables
 boolean steppersActive = true;
@@ -47,20 +47,21 @@ void setup(void)
   lcd.Fill_Screen(WHITE);
   
   Serial.begin(600);
-
-  Serial.println("Finished General Setup");
-
-  current_menu = init_main_menu();
-  Serial.println("Finished init, drawing...");
-  draw_menu(current_menu);
-
-  Serial.println("Finished drawing, entering main loop...");
 }
 
 void loop(void)
 {
   Serial.println("Entered main loop");
-
+  Menu current_menu;
+  if(requires_redraw){
+    requires_redraw = false;
+    lcd.Fill_Screen(WHITE);
+    Serial.println("Loading new menu: " + current_state);
+    current_menu = init_menu(current_state);
+    draw_menu(current_menu);
+  }
+  Serial.print("Menu size I think?: ");
+  Serial.println(sizeof(current_menu));
 /*
   gantry_stepper.setSpeed(20);
 	gantry_stepper.step(stepsPerRevolution);
@@ -73,9 +74,6 @@ void loop(void)
 */
   boolean debug = false;
 
-  boolean requires_redraw = false;
-  boolean skip_click_check = false;
-
   px = 0;
   py = 0;
   touch.TP_Scan(0);
@@ -87,7 +85,7 @@ void loop(void)
   Button* bPtr = current_menu.buttons;
   if(debug){
       Serial.println("Testing clicks in: ");
-      Serial.println(current_menu.name);
+      //Serial.println(current_menu.name);
       Serial.println("Clicked region: ");
       Serial.println(px);
       Serial.println(py); 
@@ -117,7 +115,7 @@ void loop(void)
           *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
           bPtr->display->set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
           bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
-          draw_button(*bPtr);
+          draw_button(bPtr);
           delay(250);
           break;
         case MODIFY_INPUT:
@@ -127,12 +125,5 @@ void loop(void)
       }
     }
     bPtr++;
-  }
-
-  if(requires_redraw){
-    lcd.Fill_Screen(WHITE);
-    Serial.println("Loading new menu: " + current_state);
-    current_menu = init_menu(current_state);
-    draw_menu(current_menu);
   }
 }

@@ -1,33 +1,32 @@
 void draw_menu(Menu menu){
-  Serial.println("Drawing menu: " + menu.name);
-  Button* bPtr = menu.buttons;
-  Label* lPtr = menu.labels;
+  Button *bPtr = menu.buttons;
+  Label *lPtr = menu.labels;
 
   for(int i = 0; i < menu.button_size; i++){
-    print_pointer_info(*bPtr);
+    print_pointer(bPtr);
     if(bPtr->initialized){
-      draw_button(*bPtr);
+      draw_button(bPtr);
     }
     bPtr++;
   }
-  Serial.println("Finished drawing menu: " + menu.name);
 }
 
-void print_pointer_info(Button button){
-  Serial.println("Parsing button: " + button.label.content);
-  Serial.println("Display Type: " + button.display->print_type());
-  Serial.println("Color: " + button.display->bg_color);
+void print_pointer(Button *button){
+  Serial.println("Parsing button...");
+  Serial.print("Action: ");
+  Serial.println(button->action);
+  Serial.print("Display type: ");
+  Serial.println(button->display->display_type);
+  Serial.print("Display rounded?: ");
+  Serial.println(button->display->rounded);
 }
 
-void draw_button(Button button){
-  Serial.println(button.display->display_type);
-  draw_shape(button.display);
-  show_label(button.label);
+void draw_button(Button *button){
+  draw_shape(button->display);
+  show_label(button->label);
 }
 
 void draw_shape(DisplayShape *shape){
-  Serial.println("Drawing shape: ");
-  Serial.println(shape->print_type());
   switch(shape->display_type){
     case RECTANGLE:
       Serial.println("Drawing Rectangle");
@@ -49,8 +48,10 @@ void draw_shape(DisplayShape *shape){
 
 void draw_rectangle(DisplayShape *rectangle){
   if(!rectangle->rounded){
+    Serial.println("Not rounded draw");
     lcd.Fill_Rect(rectangle->x, rectangle->y, rectangle->width, rectangle->height, rectangle->bg_color);
   }else{
+    Serial.println("rounded draw");
     lcd.Set_Draw_color(rectangle->bg_color);
     lcd.Fill_Round_Rectangle(rectangle->x, rectangle->y, rectangle->width, rectangle->height, 3);
   }
