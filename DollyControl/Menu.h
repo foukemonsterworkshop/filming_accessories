@@ -1,52 +1,7 @@
-class DisplayShape{
-  public:
-    int x,x2,y,y2;
+#ifndef MENU_H
+#define MENU_H
 
-    DisplayType display_type;
-
-    int width,height,radius;
-
-    int16_t bg_color;
-
-    DisplayShape(){}
-    DisplayShape(int x,int x2,int y,int y2, int16_t bg_color){
-      this->x=x;
-      this->x2=x2;
-      this->y=y;
-      this->y2=y2;
-      this->width = (x2-x);
-      this->height = (y2-y);
-      this->bg_color = bg_color;
-      this->display_type = RECTANGLE;
-    }
-
-    DisplayShape(int x, int y, int radius, int16_t bg_color){
-      this->x = x;
-      this->y = y;
-      this->radius = radius;
-      this->bg_color = bg_color;
-      this->display_type = CIRCLE;
-    }
-
-    void set_color(int bg_color){
-      this->bg_color= bg_color;
-    }
-
-    boolean is_pressed(int px, int py){
-      switch(this->display_type){
-        case RECTANGLE: return is_r_pressed(px, py);
-        case CIRCLE: return is_c_pressed(px, py);
-      }
-    }
-
-    boolean is_r_pressed(int px, int py){
-      return px > x && px < x2 && py > y && py < y2;
-    }
-
-    boolean is_c_pressed(int px,int py){
-      return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
-    }
-};
+#include "DisplayShape.h"
 
 class Label{
   public:
@@ -80,7 +35,7 @@ class Button{
   public:
     MenuState navigateTarget;
 
-    DisplayShape area;
+    DisplayShape display;
 
     ButtonAction action;
 
@@ -95,37 +50,37 @@ class Button{
     String active_text, inactive_text;
 
     Button(){}
-    Button(DisplayShape area, Label label, ButtonAction action){
-        this->area = area;
+    Button(DisplayShape display, Label label, ButtonAction action){
+        this->display = display;
         this->label = label;
         this->action = action;
 
         this->initialized = true;
     }
-    Button(DisplayShape area, Label label, ButtonAction action, MenuState navigateTarget){
-        this->area = area;
+    Button(DisplayShape display, Label label, MenuState navigateTarget){
+        this->display = display;
         this->label = label;
-        this->action = action;
         this->navigateTarget = navigateTarget;
 
         this->initialized = true;
+        this->action = NAVIGATE;
     }
-    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, String active_text, String inactive_text){
-        this->area = area;
+    Button(DisplayShape display, Label label, boolean *affectedBoolean, String active_text, String inactive_text){
+        this->display = display;
         this->label = label;
         this->affectedBoolean = affectedBoolean;
-        this->action = action;
 
         this->initialized = true;
 
         this->active_color = GREEN;
         this->inactive_color = RED;
+        this->action = UPDATE_VALUE;
 
         this->active_text = active_text;
         this->inactive_text = inactive_text;
     }
-    Button(DisplayShape area, Label label, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
-        this->area = area;
+    Button(DisplayShape display, Label label, boolean *affectedBoolean, ButtonAction action, MenuState navigateTarget){
+        this->display = display;
         this->label = label;
         this->affectedBoolean = affectedBoolean;
         this->action = action;
@@ -135,7 +90,7 @@ class Button{
     }
 
     boolean is_pressed(int px, int py){
-      return area.is_pressed(px, py);
+      return display.is_pressed(px, py);
     }
 
 };
@@ -180,3 +135,5 @@ class Menu{
         this->label_size = label_size;
     }
 };
+
+#endif

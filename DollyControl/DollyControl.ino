@@ -93,10 +93,10 @@ void loop(void)
 
     if(debug){
       Serial.println("Button Region: ");
-      Serial.println(bPtr->area.x);
-      Serial.println(bPtr->area.x2);
-      Serial.println(bPtr->area.y);
-      Serial.println(bPtr->area.y2);
+      Serial.println(bPtr->display.x);
+      Serial.println(bPtr->display.x2);
+      Serial.println(bPtr->display.y);
+      Serial.println(bPtr->display.y2);
     }
 
     if(bPtr->is_pressed(px, py)){
@@ -113,7 +113,7 @@ void loop(void)
           break;
         case UPDATE_VALUE: 
           *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
-          bPtr->area.set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
+          bPtr->display.set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
           bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
           draw_button(*bPtr);
           break;

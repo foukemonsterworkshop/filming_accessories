@@ -22,7 +22,7 @@ void draw_menu(Menu menu){
 }
 
 void draw_button(Button button){
-  draw_shape(button.area);
+  draw_shape(button.display);
   show_label(button.label);
 }
 
@@ -30,22 +30,67 @@ void draw_shape(DisplayShape shape){
   switch(shape.display_type){
     case RECTANGLE:
       Serial.println("Drawing Rectangle");
-      draw_rectangle(shape, shape.bg_color);
+      draw_rectangle(shape);
       break;
     case CIRCLE:
       Serial.println("Drawing Circle");
-      draw_circle(shape, shape.bg_color);
+      draw_circle(shape);
+      break;
+    case TRIANGLE:
+      Serial.println("Drawing Circle");
+      draw_triangle(shape);
+      break;
+    case ARROW:
+      Serial.println("Drawing Circle");
+      draw_circle(shape);
       break;
   }
 }
 
-void draw_rectangle(DisplayShape rectangle, int16_t color){
-  lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, color);
+void draw_rectangle(DisplayShape rectangle){
+  lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, rectangle.bg_color);
 }
 
-void draw_circle(DisplayShape circle, int16_t color){
-    lcd.Set_Draw_color(color);
+void draw_circle(DisplayShape circle){
+    lcd.Set_Draw_color(circle.bg_color);
     lcd.Fill_Circle(circle.x, circle.y, circle.radius);
+}
+
+void draw_triangle(DisplayShape triangle){
+  Serial.println("Drawing a triangle");
+  int x1,x2,y1,y2;
+  switch(triangle.direction){
+    case NERP:
+      Serial.println("N");
+      x1 = triangle.x-triangle.size;
+      y1 = triangle.y+triangle.size;
+      x2 = triangle.x+triangle.size;
+      y2 = triangle.y+triangle.size;
+      break;
+    case EAMST:
+      Serial.println("E");
+      x1 = triangle.x-triangle.size;
+      y1 = triangle.y+triangle.size;
+      x2 = triangle.x+triangle.size;
+      y2 = triangle.y+triangle.size;
+      break;
+    case SORTH:
+      Serial.println("S");
+      x1 = triangle.x-triangle.size;
+      y1 = triangle.y+triangle.size;
+      x2 = triangle.x+triangle.size;
+      y2 = triangle.y+triangle.size;
+      break;
+    case WIBBLES:
+      Serial.println("W");
+      x1 = triangle.x-triangle.size;
+      y1 = triangle.y+triangle.size;
+      x2 = triangle.x+triangle.size;
+      y2 = triangle.y+triangle.size;
+      break;
+  }
+  lcd.Set_Draw_color(triangle.bg_color);
+  lcd.Draw_Triangle(triangle.x, triangle.y-triangle.size, x1, y1, x2, y2);
 }
 
 void show_label(Label label){
