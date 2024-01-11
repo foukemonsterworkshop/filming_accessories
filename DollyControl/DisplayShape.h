@@ -1,3 +1,6 @@
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
 class DisplayShape{
   public:
     int x,x2,y,y2;
@@ -108,3 +111,5 @@ class Arrow : public DisplayShape{
       return "Arrow";
     }
 };
+
+#endif 

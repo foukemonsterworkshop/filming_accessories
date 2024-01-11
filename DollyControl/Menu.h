@@ -1,3 +1,6 @@
+#ifndef MENU_H
+#define MENU_H
+
 #include "DisplayShape.h"
 
 class Label{
@@ -120,3 +123,5 @@ class Menu{
         this->label_size = 0;
     }
 };
+
+#endif
