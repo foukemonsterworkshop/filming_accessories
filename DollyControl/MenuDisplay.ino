@@ -1,7 +1,7 @@
+/*
 void draw_menu(Menu menu){
   Serial.println("Drawing menu: " + menu.name);
   Button* bPtr = menu.buttons;
-  Label* lPtr = menu.labels; 
   Serial.println("Attempting Drawing button");
   Serial.println("Initialized: ");
   Serial.println(bPtr->initialized);
@@ -20,10 +20,10 @@ void draw_menu(Menu menu){
   }
   Serial.println("Finished drawing menu: " + menu.name);
 }
+*/
 
 void draw_button(Button button){
   draw_shape(button.display);
-  show_label(button.label);
 }
 
 void draw_shape(DisplayShape shape){
@@ -93,10 +93,10 @@ void draw_triangle(DisplayShape triangle){
   lcd.Draw_Triangle(triangle.x, triangle.y-triangle.size, x1, y1, x2, y2);
 }
 
-void show_label(Label label){
-    lcd.Set_Text_Mode(label.mode);
-    lcd.Set_Text_Size(label.textSize);
-    lcd.Set_Text_colour(label.textColor);
-    lcd.Set_Text_Back_colour(label.bgTextColor);
-    lcd.Print_String(label.content, label.x, label.y);
+void show_label(String content, int x, int y, int size, int16_t f_color, int16_t b_color, boolean mode){
+    lcd.Set_Text_Mode(mode);
+    lcd.Set_Text_Size(size);
+    lcd.Set_Text_colour(f_color);
+    lcd.Set_Text_Back_colour(b_color);
+    lcd.Print_String(content, x, y);
 }

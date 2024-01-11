@@ -15,7 +15,7 @@ LCDWIKI_TOUCH touch(TCS,TCLK,TDOUT,TDIN,TIRQ);
 int px,py;
 
 //navigation variables and setup
-Menu current_menu;
+Button * buttons;
 
 //machine travel variables
 boolean steppersActive = true;
@@ -45,12 +45,9 @@ void setup(void)
   lcd.Fill_Screen(WHITE);
   
   Serial.begin(1200);
-  Serial.println("Initializing...");
-  current_menu = init_main_menu();
-  draw_menu(current_menu);
   Serial.println("Exiting setup");
 
-
+  buttons = init_main_menu();
 }
 
 void loop(void)
@@ -79,43 +76,26 @@ void loop(void)
     py = touch.y;
   }
   
-  Button* bPtr = current_menu.buttons;
-  if(debug){
-      Serial.println("Testing clicks in: ");
-      Serial.println(current_menu.name);
-      Serial.println("Clicked region: ");
-      Serial.println(px);
-      Serial.println(py); 
-  }
+  for(int i = 0; i < 6; i++){
+    if(!buttons->initialized)break;
 
-  for(int i = 0; i < current_menu.button_size; i++){
-    if(!bPtr->initialized)break;
-
-    if(debug){
-      Serial.println("Button Region: ");
-      Serial.println(bPtr->display.x);
-      Serial.println(bPtr->display.x2);
-      Serial.println(bPtr->display.y);
-      Serial.println(bPtr->display.y2);
-    }
-
-    if(bPtr->is_pressed(px, py)){
+    if(buttons->is_pressed(px, py)){
       
       if(true){
         Serial.println("clicked: " + i);
       }
       //react to being clicked
       //draw_shape(*menuPtr);
-      switch(bPtr->action){
+      switch(buttons->action){
         case NAVIGATE:
-          current_state = bPtr->navigateTarget;
+          current_state = buttons->navigateTarget;
           requires_redraw = true;
           break;
         case UPDATE_VALUE: 
-          *bPtr->affectedBoolean = !*bPtr->affectedBoolean;
-          bPtr->display.set_color(*bPtr->affectedBoolean ? bPtr->active_color : bPtr->inactive_color);
-          bPtr->label.set_content(*bPtr->affectedBoolean ? bPtr->active_text : bPtr->inactive_text);
-          draw_button(*bPtr);
+          *buttons->affectedBoolean = !*buttons->affectedBoolean;
+          //buttons->display.set_color(*buttons->affectedBoolean ? buttons->active_color : buttons->inactive_color);
+          //buttons->label.set_content(*buttons->affectedBoolean ? buttons->active_text : buttons->inactive_text);
+          //draw_button(*buttons);
           break;
         case MODIFY_INPUT:
           break;
@@ -123,13 +103,13 @@ void loop(void)
           Serial.println("bad state");
       }
     }
-    bPtr++;
+    buttons++;
   }
 
   if(requires_redraw){
     lcd.Fill_Screen(WHITE);
     Serial.println("Loading new menu: " + current_state);
-    current_menu = init_menu(current_state);
-    draw_menu(current_menu);
+    buttons = init_menu(current_state);
+    //draw_menu(current_menu);
   }
 }

@@ -3,7 +3,7 @@
 
 class DisplayShape{
   public:
-    int x,x2,y,y2;
+    int x,x1,y,y1;
 
     DisplayType display_type;
     TriangleDirection direction;
@@ -13,13 +13,13 @@ class DisplayShape{
     int16_t bg_color;
 
     DisplayShape(){}
-    DisplayShape(int x,int x2,int y,int y2, int16_t bg_color){
+    DisplayShape(int x,int y,int x1,int y1, int16_t bg_color){
       this->x=x;
-      this->x2=x2;
       this->y=y;
-      this->y2=y2;
-      this->width = (x2-x);
-      this->height = (y2-y);
+      this->x1=x1;
+      this->y1=y1;
+      this->width = (x1-x);
+      this->height = (y1-y);
       this->bg_color = bg_color;
       this->display_type = RECTANGLE;
     }
@@ -67,7 +67,7 @@ class DisplayShape{
     }
 
     boolean is_r_pressed(int px, int py){
-      return px > x && px < x2 && py > y && py < y2;
+      return px > x && px < x1 && py > y && py < y1;
     }
 
     boolean is_c_pressed(int px,int py){
