@@ -24,10 +24,6 @@ void draw_menu(Menu menu){
 
 void draw_shape(DisplayShape shape){
   switch(shape.display_type){
-    case RECTANGLE:
-      Serial.println("Drawing Rectangle");
-      draw_rectangle(shape);
-      break;
     case CIRCLE:
       Serial.println("Drawing Circle");
       draw_circle(shape);
@@ -41,10 +37,6 @@ void draw_shape(DisplayShape shape){
       draw_circle(shape);
       break;
   }
-}
-
-void draw_rectangle(DisplayShape rectangle){
-  lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, rectangle.bg_color);
 }
 
 void draw_circle(DisplayShape circle){

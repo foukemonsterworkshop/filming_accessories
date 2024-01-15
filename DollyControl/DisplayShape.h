@@ -65,28 +65,21 @@ class DisplayShape{
       this->bg_color= bg_color;
     }
 
-    int* press_area(){
-      int array[4];
+    boolean is_pressed(int px, int py){
       switch(this->display_type){
-        case RECTANGLE:  
-          array[0] = this->x;
-          array[1] = this->y;
-          array[2] = this->x1;
-          array[3] = this->y1;
-          break;
-        case CIRCLE: 
-          array[0] = this->x-this->radius;
-          array[1] = this->y-this->radius;
-          array[2] = this->x+this->radius;
-          array[3] = this->y+this->radius;
-          break;
-        case TRIANGLE:
-          break;
-        case ARROW: 
-          break;
+        case RECTANGLE: return is_r_pressed(px, py);
+        case CIRCLE: return is_c_pressed(px, py);
       }
-      return array;
     }
+
+    boolean is_r_pressed(int px, int py){
+      return px > x && px < x1 && py > y && py < y1;
+    }
+
+    boolean is_c_pressed(int px,int py){
+      return (px > x-radius && px < x+radius) && (py > y-radius && py < y+radius);
+    }
+
 };
 
 #endif 
