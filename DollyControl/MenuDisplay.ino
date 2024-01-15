@@ -2,7 +2,7 @@ void draw_nav_button(String label_text){
   lcd.Set_Draw_color(CYAN);
   int x = lcd.Get_Width() - 30;
   int y = lcd.Get_Height() - 30;
-  lcd.Fill_Circle(x, y, 30);
+  lcd.Fill_Circle(x, y, 25);
 
   int label_size = 2;
   show_label(label_text, 
@@ -38,137 +38,6 @@ void init_menu(MenuState state){
       Serial.println("This is a bad state.");
     //case VALUE_ENTRY: return data_entry_menu();
   }
-}
-
-void init_main_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int width = lcd.Get_Display_Width()-(2*border);
-
-  int list_position = 0;
-  int display_position = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), GREEN);
-  show_label("Motors Active",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  list_position++;
-  display_position++;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), LIGHTGREY);
-  show_label("Home Machine",labelXOffset,labelYOffset+(selection_height+border),2,BLACK, BLACK,1);
-
-  list_position++;
-  display_position++;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), LIGHTGREY);
-  show_label("Jog Machine",labelXOffset,labelYOffset+(2*(selection_height+border)),2,BLACK, BLACK,1);
-
-  list_position++;
-  display_position++;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), LIGHTGREY);
-  show_label("Pan Machine",labelXOffset,labelYOffset+(3*(selection_height+border)),2,BLACK, BLACK,1);
-
-  list_position++;
-  display_position++;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), LIGHTGREY);
-  show_label("Truck Machine",labelXOffset,labelYOffset+(4*(selection_height+border)),2,BLACK, BLACK,1);
-
-  list_position++;
-  display_position++;
-
-  lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), LIGHTGREY);
-  show_label("Parallax Machine",labelXOffset,labelYOffset+(5*(selection_height+border)),2,BLACK, BLACK,1);
-
-}
-
-void init_home_machine_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-
-  int position = 0;
-  int offset = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
-  show_label("Main From Home",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  draw_nav_button("Home");
-}
-
-void init_jog_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-
-  int position = 0;
-  int offset = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
-  show_label("Main From Jog",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  draw_nav_button("Home");
-}
-
-void init_pan_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-
-  int position = 0;
-  int offset = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
-  show_label("Main From Pan",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  draw_nav_button("Home");
-}
-
-void init_truck_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-
-  int position = 0;
-  int offset = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
-  show_label("Main From Truck",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  draw_nav_button("Home");
-}
-
-void init_parallax_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-
-  int position = 0;
-  int offset = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
-  show_label("Main From Parallax",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-
-  draw_nav_button("Home");
 }
 
 /*

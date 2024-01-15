@@ -4,7 +4,7 @@ void press_menu_button(MenuState state, int px, int py){
       interact_main_menu(px,py);
       break;
     default:
-      interact_standin(px, py);
+      interact_stand_in_menu(px, py);
   }
 }
 
@@ -22,74 +22,7 @@ void check_home_button(int px, int py){
   }
 }
 
-void interact_main_menu(int px, int py){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
-  int width = lcd.Get_Display_Width()-(2*border);
-
-  int list_position = 0;
-  int display_position = 1;
-
-  int labelXOffset = 2*border;
-  int labelYOffset = 12;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    steppers_active = !steppers_active;
-    int16_t color = steppers_active ? GREEN : RED;
-    char* label = steppers_active ? "Motors Active" : "Motors Inactive";
-    lcd.Fill_Rect(border, (display_position*border)+(list_position*selection_height), width, display_position*(border+selection_height)-((display_position*border)+(list_position*selection_height)), color);
-    show_label(label,labelXOffset,labelYOffset,2,BLACK, BLACK,1);
-    delay(150);
-  }
-
-  list_position++;
-  display_position++;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    requires_redraw = true;
-    current_state = HOME;
-    delay(150);
-  }
-
-  list_position++;
-  display_position++;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    requires_redraw = true;
-    current_state = JOG;
-    delay(150);
-  }
-
-  list_position++;
-  display_position++;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    requires_redraw = true;
-    current_state = PAN;
-    delay(150);
-  }
-
-  list_position++;
-  display_position++;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    requires_redraw = true;
-    current_state = TRUCK;
-    delay(150);
-  }
-
-  list_position++;
-  display_position++;
-
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
-    requires_redraw = true;
-    current_state = PARALLAX;
-    delay(150);
-  }
-}
-
-void interact_standin(int px, int py){
+void interact_stand_in_menu(int px, int py){
 
   int border = 5;
   int selection_height = 30;
@@ -102,7 +35,12 @@ void interact_standin(int px, int py){
   int labelXOffset = 2*border;
   int labelYOffset = 12;
 
-  if(is_pressed(px, py, border, (display_position*border)+(list_position*selection_height), xOffset, display_position*(border+selection_height))){
+  if(is_pressed(px, py, 
+                border, 
+                (display_position*border)+(list_position*selection_height), 
+                xOffset, 
+                display_position*(border+selection_height)
+  )){
     requires_redraw = true;
     current_state = MAIN;
   }
