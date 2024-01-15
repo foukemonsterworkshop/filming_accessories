@@ -4,7 +4,7 @@
 
 #include "ScreenDefinitions.h"
 #include "MenuEnums.h"
-#include "Menu.h"
+#include "Button.h"
 
 #include <Stepper.h>
 
@@ -16,6 +16,7 @@ int px,py;
 
 //navigation variables and setup
 Button * buttons;
+boolean requires_redraw = false;
 
 //machine travel variables
 boolean steppersActive = true;
@@ -45,28 +46,26 @@ void setup(void)
   lcd.Fill_Screen(WHITE);
   
   Serial.begin(1200);
+
+  Serial.println("Initializing Main Menu...");
+  buttons = init_main_menu();
   Serial.println("Exiting setup");
 
-  buttons = init_main_menu();
 }
 
-void loop(void)
-{
+void loop(void){
 
-/*
-  gantry_stepper.setSpeed(20);
-	gantry_stepper.step(stepsPerRevolution);
-	delay(1000);
-	
-	// Rotate CCW quickly at 10 RPM
-	gantry_stepper.setSpeed(30);
-	gantry_stepper.step(-stepsPerRevolution);
-	delay(1000);
-*/
+  if(requires_redraw){
+    lcd.Fill_Screen(WHITE);
+    Serial.println("Loading new menu: " + current_state);
+
+    delete [] buttons;
+    requires_redraw = false;
+
+    buttons = init_menu(current_state);
+  }
+
   boolean debug = false;
-
-  boolean requires_redraw = false;
-  boolean skip_click_check = false;
 
   px = 0;
   py = 0;
@@ -75,41 +74,61 @@ void loop(void)
     px = touch.x;
     py = touch.y;
   }
-  
-  for(int i = 0; i < 6; i++){
-    if(!buttons->initialized)break;
+
+  for(int i = 0; i < 5; i++){
+
+    Button current = buttons[i];
+
+    if(debug){ 
+      Serial.println("At index: " + i);
+      Serial.print("Looking at button: ");
+      Serial.println(current.name);
+      Serial.print("Initialized State: ");
+      Serial.println(current.initialized);
+
+      Serial.print("Touched-> x: ");
+      Serial.print(px);
+      Serial.print(" y: ");
+      Serial.println(py);
+
+      Serial.print("Button press zone: x: ");
+      Serial.print(current.x);
+      Serial.print(" y: ");
+      Serial.print(current.y);
+      Serial.print(" x1: ");
+      Serial.print(current.x1);
+      Serial.print(" y1: ");
+      Serial.println(current.y1);
+
+      Serial.println("Testing for press");
+      boolean press = buttons->is_pressed(px, py);
+      Serial.print("Tested result: ");
+      Serial.println(press);
+    }
 
     if(buttons->is_pressed(px, py)){
-      
-      if(true){
-        Serial.println("clicked: " + i);
-      }
-      //react to being clicked
-      //draw_shape(*menuPtr);
       switch(buttons->action){
         case NAVIGATE:
-          current_state = buttons->navigateTarget;
+          Serial.println("Detected NAV touch");
+          current_state = current.navigateTarget;
           requires_redraw = true;
           break;
         case UPDATE_VALUE: 
-          *buttons->affectedBoolean = !*buttons->affectedBoolean;
+          Serial.println("Detected UPDATE touch");
+          *current.affectedBoolean = !*current.affectedBoolean;
+
           //buttons->display.set_color(*buttons->affectedBoolean ? buttons->active_color : buttons->inactive_color);
           //buttons->label.set_content(*buttons->affectedBoolean ? buttons->active_text : buttons->inactive_text);
           //draw_button(*buttons);
+
           break;
         case MODIFY_INPUT:
+          Serial.println("Detected Mod input touch");
           break;
         default:
           Serial.println("bad state");
+          break;
       }
     }
-    buttons++;
-  }
-
-  if(requires_redraw){
-    lcd.Fill_Screen(WHITE);
-    Serial.println("Loading new menu: " + current_state);
-    buttons = init_menu(current_state);
-    //draw_menu(current_menu);
   }
 }

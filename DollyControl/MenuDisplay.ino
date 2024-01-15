@@ -22,10 +22,6 @@ void draw_menu(Menu menu){
 }
 */
 
-void draw_button(Button button){
-  draw_shape(button.display);
-}
-
 void draw_shape(DisplayShape shape){
   switch(shape.display_type){
     case RECTANGLE:
