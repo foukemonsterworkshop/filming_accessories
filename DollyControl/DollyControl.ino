@@ -4,7 +4,6 @@
 
 #include "ScreenDefinitions.h"
 #include "MenuEnums.h"
-#include "Button.h"
 
 #include <Stepper.h>
 
@@ -48,7 +47,6 @@ void setup(void)
   lcd.Fill_Screen(WHITE);
 
   Serial.print("Available Memory after Setup: ");
-  Serial.println(freeMemory());
 }
 
 void loop(void){
