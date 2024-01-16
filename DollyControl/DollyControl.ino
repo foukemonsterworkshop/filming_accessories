@@ -2,10 +2,12 @@
 #include <LCDWIKI_SPI.h>    //Hardware-specific library
 #include <LCDWIKI_TOUCH.h>  //touch screen library
 
+#include <Regexp.h>
+
 #include "ScreenDefinitions.h"
 #include "MenuEnums.h"
 
-#include <Stepper.h>
+#include "StepperOperation.h"
 
 //if the IC model is known or the modules is unreadable,you can use this constructed function
 LCDWIKI_SPI lcd(MODEL, CS, CD, RST, LED);  //model,cs,dc,reset,led
@@ -14,6 +16,10 @@ LCDWIKI_TOUCH touch(TCS, TCLK, TDOUT, TDIN, TIRQ);
 //navigation and interaction variables
 int px, py;
 boolean requires_redraw = false;
+
+MenuState current_state;
+MenuState prev_state;
+
 String current_input = "";
 
 //machine travel variables
@@ -40,8 +46,6 @@ void setup(void) {
   touch.TP_Set_Rotation(3);
   touch.TP_Init(lcd.Get_Rotation(), lcd.Get_Display_Width(), lcd.Get_Display_Height());
   lcd.Fill_Screen(WHITE);
-
-  Serial.print("Available Memory after Setup: ");
 }
 
 void loop(void) {
@@ -62,5 +66,5 @@ void loop(void) {
   }
 
   press_menu_button(current_state, px, py);
-  
+
 }

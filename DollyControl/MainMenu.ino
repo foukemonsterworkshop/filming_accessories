@@ -88,6 +88,7 @@ void interact_main_menu(int px, int py) {
         display_position * (y + y1));
 
       requires_redraw = true;
+      prev_state = current_state;
       current_state = state[i];
       delay(150);
     }
@@ -95,5 +96,5 @@ void interact_main_menu(int px, int py) {
     list_position++;
     display_position++;
   }
-  
+
 }

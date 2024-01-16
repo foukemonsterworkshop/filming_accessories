@@ -4,7 +4,7 @@ enum MenuState { MAIN,
                  PAN,
                  TRUCK,
                  PARALLAX,
-                 VALUE_ENTRY } current_state;
+                 VALUE_ENTRY };
 enum Unit { INCH,
             CENTIMETER,
             SECOND,

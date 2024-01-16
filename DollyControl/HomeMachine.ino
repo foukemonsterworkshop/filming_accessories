@@ -63,6 +63,7 @@ void interact_home_machine_menu(int px, int py) {
                  x1,
                  display_position * (y + y1))) {
     requires_redraw = true;
+    prev_state = current_state;
     current_state = VALUE_ENTRY;
     delay(150);
   }
