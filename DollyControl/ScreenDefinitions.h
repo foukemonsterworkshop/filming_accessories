@@ -19,7 +19,9 @@
 #define BLACK        0x0000  /*   0,   0,   0 */
 #define BLUE         0x001F  /*   0,   0, 255 */
 #define RED          0xF800  /* 255,   0,   0 */
+#define DARKRED      0xEA03
 #define GREEN        0x07E0  /*   0, 255,   0 */
+#define DARKGREEN    0xF7E0  
 #define CYAN         0x07FF  /*   0, 255, 255 */
 #define MAGENTA      0xF81F  /* 255,   0, 255 */
 #define YELLOW       0xFFE0  /* 255, 255,   0 */
