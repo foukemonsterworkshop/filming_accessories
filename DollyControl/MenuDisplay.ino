@@ -1,3 +1,11 @@
+void show_label(String content, int x, int y, int size, int16_t f_color, int16_t b_color, boolean mode){
+    lcd.Set_Text_Mode(mode);
+    lcd.Set_Text_Size(size);
+    lcd.Set_Text_colour(f_color);
+    lcd.Set_Text_Back_colour(b_color);
+    lcd.Print_String(content, x, y);
+}
+
 void draw_nav_button(String label_text){
   lcd.Set_Draw_color(CYAN);
   int x = lcd.Get_Width() - 30;
