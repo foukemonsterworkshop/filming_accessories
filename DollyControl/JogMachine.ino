@@ -1,15 +1,22 @@
 void init_jog_menu(){
-  int border = 5;
-  int selection_height = 30;
-  int xOffset = lcd.Get_Display_Width()-border;
+  int x = 5;
+  int y = 5;
+  int x1 = lcd.Get_Display_Width()-x;
+  int y1 = 30;
 
-  int position = 0;
-  int offset = 1;
+  int list_position = 0;
+  int display_position = 1;
 
-  int labelXOffset = 2*border;
+  int labelXOffset = 2*x;
   int labelYOffset = 12;
 
-  lcd.Fill_Rect(border, (offset*border)+(position*selection_height), xOffset, offset*(border+selection_height), LIGHTGREY);
+  lcd.Set_Draw_color(LIGHTGREY);
+  lcd.Fill_Round_Rectangle(
+    x, 
+    (display_position*y)+(list_position*y1), 
+    x1, 
+    display_position*(y+y1), 
+    3);
   show_label("Main From Jog",labelXOffset,labelYOffset,2,BLACK, BLACK,1);
 
   draw_nav_button("Home");

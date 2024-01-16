@@ -12,7 +12,7 @@ void draw_nav_button(String label_text){
   int y = lcd.Get_Height() - 30;
   lcd.Fill_Circle(x, y, 25);
 
-  int label_size = 2;
+  int label_size = 1.5;
   show_label(label_text, 
       x-label_text.length()*label_size*6/2+label_size/2+1,
       y-label_size*8/2+label_size/2+1,
@@ -42,9 +42,11 @@ void init_menu(MenuState state){
     case PARALLAX: 
       init_parallax_menu();
       break;
+    case VALUE_ENTRY: 
+      init_data_input();
+      break;
     default:
       Serial.println("This is a bad state.");
-    //case VALUE_ENTRY: return data_entry_menu();
   }
 }
 

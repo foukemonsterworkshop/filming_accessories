@@ -3,6 +3,12 @@ void press_menu_button(MenuState state, int px, int py){
     case MAIN:
       interact_main_menu(px,py);
       break;
+    case HOME:
+      interact_home_machine_menu(px,py);
+      break;
+    case VALUE_ENTRY:
+      interact_data_input(px, py);
+      break;
     default:
       interact_stand_in_menu(px, py);
   }
@@ -35,6 +41,8 @@ void interact_stand_in_menu(int px, int py){
   int labelXOffset = 2*border;
   int labelYOffset = 12;
 
+  check_home_button(px, py);
+
   if(is_pressed(px, py, 
                 border, 
                 (display_position*border)+(list_position*selection_height), 
@@ -44,7 +52,5 @@ void interact_stand_in_menu(int px, int py){
     requires_redraw = true;
     current_state = MAIN;
   }
-
-  check_home_button(px, py);
 
 }
