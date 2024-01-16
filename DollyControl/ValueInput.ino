@@ -113,29 +113,32 @@ void interact_data_input(int px, int py) {
           current_input.remove(current_input.length() - 1);
           draw_input_display(DARKGREY);
         } else if (strcmp(input_value[i][j], "E") == 0) {
-          //save input
-          Serial.print("Checking input string: \"");
-          Serial.print(current_input);
-          Serial.println("\"");
-          Serial.print("Converted string: \"");
-          Serial.print(current_input.c_str());
-          Serial.println("\"");
-        
-          MatchState ms(current_input.c_str());
-
-          //regex I'm actually wanting:
+          
+          MatchState ms;
           //   ^\-?\d*\.?\d+$
-          char result = ms.Match("^%-?%d*%.?%d+$");
+          char* regex = "^%-?%d*%.?%d+$";
 
-            Serial.print("Comparison result: ");
-            Serial.println(result);
+          ms.Target(current_input.c_str(), current_input.length());
+
+          char result = ms.Match(regex, 0);
+
+          if (result > 0) {
+            //update value...
+
+            //redraw previous menu
+            requires_redraw = true;
+            current_state = prev_state;
+          } else {
+            //reject input
+            draw_input_display(RED);
+            //TODO: clear input value or just force user to delete characters
+          }
+
           //return to previous screen
-          //requires_redraw = true;
-          //current_state = prev_state;
-
         } else {
-          Serial.println("Updating input");
           current_input += input_value[i][j];
+          Serial.print("New value: ");
+          Serial.println(current_input);
           update_content_input_display();
         }
 
@@ -155,7 +158,7 @@ void draw_input_display(int16_t color) {
     45,
     3);
 
-    if(current_input.length()>0) update_content_input_display();
+  if (current_input.length() > 0) update_content_input_display();
 }
 
 void update_content_input_display() {

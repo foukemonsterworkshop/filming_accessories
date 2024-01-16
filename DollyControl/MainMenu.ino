@@ -13,7 +13,7 @@ void init_main_menu() {
   String content = steppers_active ? "Motors Active" : "Motors Inactive";
   int label_size = 2;
 
-  char* labels[6] = { " ", "Home Machine", "Jog Machine", "Pan MAchine", "Truck Machine", "Parallax Machine" };
+  char* labels[6] = { " ", "Home Machine", "Jog Machine", "Pan Machine", "Truck Machine", "Parallax Machine" };
 
   for (int i = 0; i < 6; i++) {
     int16_t color;
