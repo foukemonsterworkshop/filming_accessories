@@ -52,13 +52,3 @@ void interact_stand_in_menu(int px, int py) {
     current_state = MAIN;
   }
 }
-
-void nav_button_reaction(int16_t color, int x, int y, int x1, int y1) {
-  lcd.Set_Draw_color(color);
-  lcd.Fill_Round_Rectangle(
-    x,
-    y1,
-    x1,
-    y1,
-    3);
-}

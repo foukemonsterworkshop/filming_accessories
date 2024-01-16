@@ -20,6 +20,16 @@ void draw_nav_button(String label_text) {
              BLACK, BLACK, 1);
 }
 
+void button_reaction(int16_t color, int x, int y, int x1, int y1) {
+  lcd.Set_Draw_color(color);
+  lcd.Fill_Round_Rectangle(
+    x,
+    y,
+    x1,
+    y1,
+    3);
+}
+
 void init_menu(MenuState state) {
   Serial.print("Loading new menu: ");
   Serial.println(state);

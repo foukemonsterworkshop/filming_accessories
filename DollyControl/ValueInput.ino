@@ -91,6 +91,7 @@ void interact_data_input(int px, int py) {
       if (is_pressed(px, py, x + (x_offset * j), y + (y_offset * i) + input_display_offset, x1 + (x_offset * j), y1 + (y_offset * i) + input_display_offset)) {
 
         button_reaction(primary_color, secondary_color, i, j, input_value[i][j]);
+        
       }
     }
   }
