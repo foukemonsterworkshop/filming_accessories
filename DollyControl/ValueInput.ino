@@ -117,28 +117,31 @@ void interact_data_input(int px, int py) {
           MatchState ms;
           //   ^\-?\d*\.?\d+$
           char* regex = "^%-?%d*%.?%d+$";
+          Serial.print("Using regex: ");
+          Serial.println(regex);
 
           ms.Target(current_input.c_str(), current_input.length());
+          Serial.print("Matching against: ");
+          Serial.println(current_input);
 
           char result = ms.Match(regex, 0);
-
+          Serial.print("Result: ");
+          Serial.println(result);
           if (result > 0) {
-            //update value...
-
+            draw_input_display(GREEN);
+            //TODO update value
+            
             //redraw previous menu
+            delay(150);
             requires_redraw = true;
             current_state = prev_state;
           } else {
-            //reject input
             draw_input_display(RED);
-            //TODO: clear input value or just force user to delete characters
           }
 
           //return to previous screen
         } else {
           current_input += input_value[i][j];
-          Serial.print("New value: ");
-          Serial.println(current_input);
           update_content_input_display();
         }
 

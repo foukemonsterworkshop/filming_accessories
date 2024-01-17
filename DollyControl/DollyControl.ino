@@ -25,17 +25,15 @@ String current_input = "";
 //machine travel variables
 boolean steppers_active = true;
 
-
-/*
 // Defines the number of steps per rotation
 const int stepsPerRevolution = 2038;
 // Creates an instance of stepper class
 // Pins entered in sequence IN1-IN3-IN2-IN4 for proper step sequence
-Stepper gantry_stepper = Stepper(stepsPerRevolution, 8, 10, 9, 11);
-*/
+Stepper gantry_stepper = Stepper(stepsPerRevolution, 2, 3, 4, 5);
+Stepper pan_stepper = Stepper(stepsPerRevolution, 6, 7, 8, 9);
 
 void setup(void) {
-  Serial.begin(1200);
+  Serial.begin(9600);
   Serial.println("");
 
   current_state = MAIN;
