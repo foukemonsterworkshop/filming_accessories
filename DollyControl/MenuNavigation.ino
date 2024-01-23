@@ -1,4 +1,4 @@
-void press_menu_button(MenuState state, int px, int py) {
+void interact_with_menu(MenuState state, int px, int py) {
   switch (state) {
     case MAIN:
       interact_main_menu(px, py);
