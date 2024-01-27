@@ -1,102 +1,61 @@
-void draw_menu(Menu menu){
-  Serial.println("Drawing menu: " + menu.name);
-  Button* bPtr = menu.buttons;
-  Label* lPtr = menu.labels; 
-  Serial.println("Attempting Drawing button");
-  Serial.println("Initialized: ");
-  Serial.println(bPtr->initialized);
+void show_label(String content, int x, int y, int size, int16_t f_color, int16_t b_color, boolean mode) {
+  lcd.Set_Text_Mode(mode);
+  lcd.Set_Text_Size(size);
+  lcd.Set_Text_colour(f_color);
+  lcd.Set_Text_Back_colour(b_color);
+  lcd.Print_String(content, x, y);
+}
 
-  Serial.println(menu.button_size);
+void draw_nav_button(String label_text) {
+  lcd.Set_Draw_color(CYAN);
+  int x = lcd.Get_Width() - 30;
+  int y = lcd.Get_Height() - 30;
+  lcd.Fill_Circle(x, y, 25);
 
-  for(int i = 0; i < menu.button_size; i++){
-    Serial.println("Attempting Drawing button");
-    Serial.println("Initialized: ");
-    Serial.println(bPtr->initialized);
-    if(bPtr->initialized){
-      draw_button(*bPtr);
-      Serial.println("Drawn button: " + bPtr->label.content);
-    }
-    bPtr++;
+  int label_size = 1.5;
+  show_label(label_text,
+             x - label_text.length() * label_size * 6 / 2 + label_size / 2 + 1,
+             y - label_size * 8 / 2 + label_size / 2 + 1,
+             label_size,
+             BLACK, BLACK, 1);
+}
+
+void button_reaction(int16_t color, int x, int y, int x1, int y1) {
+  lcd.Set_Draw_color(color);
+  lcd.Fill_Round_Rectangle(
+    x,
+    y,
+    x1,
+    y1,
+    3);
+}
+
+void init_menu(MenuState state) {
+  Serial.print("Loading new menu: ");
+  Serial.println(state);
+  switch (state) {
+    case MAIN:
+      init_main_menu();
+      break;
+    case HOME:
+      init_home_machine_menu();
+      break;
+    case JOG:
+      init_jog_menu();
+      break;
+    case PAN:
+      init_pan_menu();
+      break;
+    case TRUCK:
+      init_truck_menu();
+      break;
+    case PARALLAX:
+      init_parallax_menu();
+      break;
+    case VALUE_ENTRY:
+      init_data_input();
+      break;
+    default:
+      Serial.println("This is a bad state.");
   }
-  Serial.println("Finished drawing menu: " + menu.name);
-}
-
-void draw_button(Button button){
-  draw_shape(button.display);
-  show_label(button.label);
-}
-
-void draw_shape(DisplayShape shape){
-  switch(shape.display_type){
-    case RECTANGLE:
-      Serial.println("Drawing Rectangle");
-      draw_rectangle(shape);
-      break;
-    case CIRCLE:
-      Serial.println("Drawing Circle");
-      draw_circle(shape);
-      break;
-    case TRIANGLE:
-      Serial.println("Drawing Circle");
-      draw_triangle(shape);
-      break;
-    case ARROW:
-      Serial.println("Drawing Circle");
-      draw_circle(shape);
-      break;
-  }
-}
-
-void draw_rectangle(DisplayShape rectangle){
-  lcd.Fill_Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height, rectangle.bg_color);
-}
-
-void draw_circle(DisplayShape circle){
-    lcd.Set_Draw_color(circle.bg_color);
-    lcd.Fill_Circle(circle.x, circle.y, circle.radius);
-}
-
-void draw_triangle(DisplayShape triangle){
-  Serial.println("Drawing a triangle");
-  int x1,x2,y1,y2;
-  switch(triangle.direction){
-    case NERP:
-      Serial.println("N");
-      x1 = triangle.x-triangle.size;
-      y1 = triangle.y+triangle.size;
-      x2 = triangle.x+triangle.size;
-      y2 = triangle.y+triangle.size;
-      break;
-    case EAMST:
-      Serial.println("E");
-      x1 = triangle.x-triangle.size;
-      y1 = triangle.y+triangle.size;
-      x2 = triangle.x+triangle.size;
-      y2 = triangle.y+triangle.size;
-      break;
-    case SORTH:
-      Serial.println("S");
-      x1 = triangle.x-triangle.size;
-      y1 = triangle.y+triangle.size;
-      x2 = triangle.x+triangle.size;
-      y2 = triangle.y+triangle.size;
-      break;
-    case WIBBLES:
-      Serial.println("W");
-      x1 = triangle.x-triangle.size;
-      y1 = triangle.y+triangle.size;
-      x2 = triangle.x+triangle.size;
-      y2 = triangle.y+triangle.size;
-      break;
-  }
-  lcd.Set_Draw_color(triangle.bg_color);
-  lcd.Draw_Triangle(triangle.x, triangle.y-triangle.size, x1, y1, x2, y2);
-}
-
-void show_label(Label label){
-    lcd.Set_Text_Mode(label.mode);
-    lcd.Set_Text_Size(label.textSize);
-    lcd.Set_Text_colour(label.textColor);
-    lcd.Set_Text_Back_colour(label.bgTextColor);
-    lcd.Print_String(label.content, label.x, label.y);
 }
