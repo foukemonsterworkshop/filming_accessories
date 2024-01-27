@@ -29,7 +29,7 @@ String current_input = "";
 boolean steppers_active = true;
 
 // Defines the number of steps per rotation
-const int stepsPerRevolution = 2038;
+const int stepsPerRevolution = 200;
 // Creates an instance of stepper class
 // Pins entered in sequence IN1-IN3-IN2-IN4 for proper step sequence
 
@@ -57,6 +57,9 @@ void setup(void) {
   touch.TP_Set_Rotation(3);
   touch.TP_Init(lcd.Get_Rotation(), lcd.Get_Display_Width(), lcd.Get_Display_Height());
   lcd.Fill_Screen(WHITE);
+
+  gantry_stepper.setSpeed(60);
+
 }
 
 void loop(void) {
@@ -77,5 +80,17 @@ void loop(void) {
   }
 
   interact_with_menu(current_state, px, py);
+
+  // step one revolution in one direction:
+	Serial.println("clockwise");
+	gantry_stepper.step(stepsPerRevolution);
+  //pan_stepper.step(stepsPerRevolution);
+	delay(2000);
+
+	// step one revolution in the other direction:
+	Serial.println("counterclockwise");
+	gantry_stepper.step(-stepsPerRevolution);
+  //pan_stepper.step(-stepsPerRevolution);
+	delay(2000);
 
 }
