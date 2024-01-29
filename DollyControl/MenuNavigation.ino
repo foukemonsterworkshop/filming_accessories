@@ -6,6 +6,9 @@ void interact_with_menu(MenuState state, int px, int py) {
     case HOME:
       interact_home_machine_menu(px, py);
       break;
+    case JOG:
+      interact_jog_menu(px, py);
+      break;
     case VALUE_ENTRY:
       interact_data_input(px, py);
       break;

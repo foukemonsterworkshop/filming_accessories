@@ -115,18 +115,10 @@ void interact_data_input(int px, int py) {
         } else if (strcmp(input_value[i][j], "E") == 0) {
           
           MatchState ms;
-          //   ^\-?\d*\.?\d+$
           char* regex = "^%-?%d*%.?%d+$";
-          Serial.print("Using regex: ");
-          Serial.println(regex);
 
           ms.Target(current_input.c_str(), current_input.length());
-          Serial.print("Matching against: ");
-          Serial.println(current_input);
-
           char result = ms.Match(regex, 0);
-          Serial.print("Result: ");
-          Serial.println(result);
           if (result > 0) {
             draw_input_display(GREEN);
             //TODO update value

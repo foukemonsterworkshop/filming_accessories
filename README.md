@@ -15,7 +15,7 @@ https://www.youtube.com/watch?v=t1sXvMY_vAw
 And a series from The Meandrous Engineer  
 https://www.youtube.com/watch?v=fble2ifR0NI
 
-//TODO add a link to the FSD file or whatever format I decide to export
+A group of .3mf files and an export of the Fusion 360 (.f3d) have been included.
 
 ### The Dolly
 Real dollys are expensive, and the ones that are "smart" are much _more_ expensive.
@@ -45,3 +45,6 @@ https://www.amazon.com/dp/B00NJOTBOK?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
 And these related tutorial from the same place  
 https://lastminuteengineers.com/stepper-motor-l298n-arduino-tutorial/
+
+A group of .3mf files and an export of the Fusion 360 (.f3d) have been included.
+In addition some of the sub-assembly projects have been included for further customation.

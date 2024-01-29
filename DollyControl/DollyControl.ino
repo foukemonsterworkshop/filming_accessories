@@ -81,16 +81,4 @@ void loop(void) {
 
   interact_with_menu(current_state, px, py);
 
-  // step one revolution in one direction:
-	Serial.println("clockwise");
-	gantry_stepper.step(stepsPerRevolution);
-  //pan_stepper.step(stepsPerRevolution);
-	delay(2000);
-
-	// step one revolution in the other direction:
-	Serial.println("counterclockwise");
-	gantry_stepper.step(-stepsPerRevolution);
-  //pan_stepper.step(-stepsPerRevolution);
-	delay(2000);
-
 }
