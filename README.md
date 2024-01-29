@@ -49,10 +49,10 @@ And these related tutorial from the same place
 https://lastminuteengineers.com/stepper-motor-l298n-arduino-tutorial/
 
 TB6600 stepper drivers
-I moved on to a more familiar CNC style controller
+I moved on to a more familiar CNC style controller  
 https://www.amazon.com/gp/product/B088CRCMP7/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&th=1
 
-And used these tutorials:
+And used these tutorials:  
 https://www.makerguides.com/tb6600-stepper-motor-driver-arduino-tutorial/
 
 A group of .3mf files and an export of the Fusion 360 (.f3d) have been included.
