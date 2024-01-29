@@ -40,15 +40,15 @@ After the initial test and finding that they would not perform the required acti
 https://www.amazon.com/dp/B00PNEQKC0?psc=1&ref=ppx_yo2ov_dt_b_product_details  
 https://www.amazon.com/dp/B00PNEQ79Q?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
-L298N motor drivers
-Testing with these motor drivers resulted in jittery movement and drop in power when controlled in tandem.
-They also got super hot.
+L298N motor drivers  
+Testing with these motor drivers resulted in jittery movement and drop in power when controlled in tandem.  
+They also got super hot.  
 https://www.amazon.com/dp/B00NJOTBOK?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
 And these related tutorial from the same place  
 https://lastminuteengineers.com/stepper-motor-l298n-arduino-tutorial/
 
-TB6600 stepper drivers
+TB6600 stepper drivers  
 I moved on to a more familiar CNC style controller  
 https://www.amazon.com/gp/product/B088CRCMP7/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&th=1
 
