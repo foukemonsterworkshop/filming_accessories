@@ -36,15 +36,24 @@ https://www.amazon.com/gp/product/B07YRHX73L/ref=ppx_yo_dt_b_search_asin_title?i
 And a related tutorial I used is here:  
 https://lastminuteengineers.com/28byj48-stepper-motor-arduino-tutorial/
 
-After the initial test and finding that they would not perform the required action, I switched to nema 17 stepper motors.  
+After the initial test and finding that they would not perform the required action, I switched to these nema 17 stepper motors.  
 https://www.amazon.com/dp/B00PNEQKC0?psc=1&ref=ppx_yo2ov_dt_b_product_details  
 https://www.amazon.com/dp/B00PNEQ79Q?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
-With these motor drivers  
+L298N motor drivers  
+Testing with these motor drivers resulted in jittery movement and drop in power when controlled in tandem.  
+They also got super hot.  
 https://www.amazon.com/dp/B00NJOTBOK?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
 And these related tutorial from the same place  
 https://lastminuteengineers.com/stepper-motor-l298n-arduino-tutorial/
+
+TB6600 stepper drivers  
+I moved on to a more familiar CNC style controller  
+https://www.amazon.com/gp/product/B088CRCMP7/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&th=1
+
+And used these tutorials:  
+https://www.makerguides.com/tb6600-stepper-motor-driver-arduino-tutorial/
 
 A group of .3mf files and an export of the Fusion 360 (.f3d) have been included.
 In addition some of the sub-assembly projects have been included for further customation.
