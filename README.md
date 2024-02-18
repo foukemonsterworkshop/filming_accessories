@@ -28,7 +28,7 @@ The necessary arduino files are {here}
 And the models can be found {here}
 
 Wiki information for the specific touch screen I used can be found  
-http://www.lcdwiki.com/3.2inch_RPi_Display
+http://www.lcdwiki.com/3.2inch_SPI_Module_ILI9341_SKU:MSP3218
 
 I originally started with much too weak Stepper motors.  
 https://www.amazon.com/gp/product/B07YRHX73L/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
